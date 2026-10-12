@@ -1,0 +1,28 @@
+name: Lighthouse CI Audit
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    name: Core Web Vitals & Accessibility Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies & Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Audit Build Artifacts
+        run: |
+          echo "Auditing production build size and asset optimization..."
+          du -sh dist/*

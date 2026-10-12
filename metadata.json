@@ -1,0 +1,6 @@
+{
+  "name": "JD Jackets — Custom Branded Outerwear",
+  "description": "Production-grade custom branded outerwear and jacket ordering platform for businesses, teams, and organizations with interactive 360 viewer and WhatsApp order configuration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
