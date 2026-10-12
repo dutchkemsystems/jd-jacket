@@ -22,6 +22,7 @@ import {
 import { JACKET_STYLES, INDUSTRIES, COMPANY_INFO, JacketStyle } from '../data/jacketsData';
 import { formatOrderWhatsAppMessage, buildWhatsAppUrl } from '../utils/whatsapp';
 import { Jacket360Viewer } from './Jacket360Viewer';
+import { APP_IMAGES } from '../assets/images';
 
 interface OrderFormModalProps {
   isOpen: boolean;
@@ -446,7 +447,7 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                           alt={`${currentJacket.name} 4K Studio Image`}
                           className="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => {
-                            e.currentTarget.src = "/src/assets/images/hero_executive_puffer_1791836347853.jpg";
+                            e.currentTarget.src = APP_IMAGES.heroExecutivePuffer || "/images/hero_executive_puffer_1791836347853.jpg";
                           }}
                         />
                         {/* Live placement badge overlay */}
@@ -463,9 +464,12 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                     {visualMode === '4k-macro' && (
                       <div className="relative w-full h-full">
                         <img
-                          src="/src/assets/images/jacket_configurator_closeup_4k_1791840430213.jpg"
+                          src={APP_IMAGES.jacketConfiguratorCloseup4k}
                           alt="4K Macro Detail of Tailored Embroidery"
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => {
+                            e.currentTarget.src = "/images/jacket_configurator_closeup_4k_1791840430213.jpg";
+                          }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                         <div className="absolute bottom-2 left-2 right-2 text-white text-[10px]">

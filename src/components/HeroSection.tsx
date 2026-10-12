@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowDown, CheckCircle2, MessageSquare, Eye, Sparkles, Layers, ShieldCheck, Compass } from 'lucide-react';
 import { Jacket360Viewer } from './Jacket360Viewer';
 import { JACKET_STYLES, JacketStyle } from '../data/jacketsData';
+import { APP_IMAGES } from '../assets/images';
 
 interface HeroSectionProps {
   onOpenOrderModal: (jacketId?: string) => void;
@@ -152,9 +153,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenOrderModal, onCo
           ) : (
             <div className="rounded-xl overflow-hidden border border-[#deded5] bg-white shadow-xl aspect-[16/9] relative group">
               <img
-                src="/src/assets/images/hero_4k_studio_showcase_1791840430336.jpg"
+                src={APP_IMAGES.hero4kStudioShowcase}
                 alt="4K Ultra-HD Commercial Outerwear Lookbook Display"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/hero_4k_studio_showcase_1791840430336.jpg";
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 

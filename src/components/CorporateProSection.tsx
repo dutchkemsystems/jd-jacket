@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, Feather, Layers, ArrowRight, FileText, Download } from 'lucide-react';
 import { JACKET_STYLES } from '../data/jacketsData';
+import { APP_IMAGES } from '../assets/images';
 
 interface CorporateProSectionProps {
   onOpenOrderModal: (jacketId?: string) => void;
@@ -51,7 +52,7 @@ export const CorporateProSection: React.FC<CorporateProSectionProps> = ({ onOpen
                 alt="JD Corporate Pro Executive Puffer Jacket"
                 className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
                 onError={(e) => {
-                  e.currentTarget.src = "/src/assets/images/hero_executive_puffer_1791836347853.jpg";
+                  e.currentTarget.src = APP_IMAGES.heroExecutivePuffer || "/images/hero_executive_puffer_1791836347853.jpg";
                 }}
               />
 
@@ -79,9 +80,12 @@ export const CorporateProSection: React.FC<CorporateProSectionProps> = ({ onOpen
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-lg border border-[#deded5] bg-[#f6f5f0] p-3 flex items-center gap-3">
                 <img
-                  src="/src/assets/images/custom_embroidery_detail_1791836376503.jpg"
+                  src={APP_IMAGES.customEmbroideryDetail}
                   alt="Madeira multi-thread embroidery crest detail"
                   className="w-14 h-14 rounded object-cover shrink-0"
+                  onError={(e) => {
+                    e.currentTarget.src = "/images/custom_embroidery_detail_1791836376503.jpg";
+                  }}
                 />
                 <div>
                   <h4 className="text-xs font-bold text-[#20231f]">Tajima Embroidery</h4>
@@ -93,9 +97,12 @@ export const CorporateProSection: React.FC<CorporateProSectionProps> = ({ onOpen
 
               <div className="rounded-lg border border-[#deded5] bg-[#f6f5f0] p-3 flex items-center gap-3">
                 <img
-                  src="/src/assets/images/featured_corporate_pro_1791836357066.jpg"
+                  src={APP_IMAGES.featuredCorporatePro}
                   alt="High-density corporate crest"
                   className="w-14 h-14 rounded object-cover shrink-0"
+                  onError={(e) => {
+                    e.currentTarget.src = "/images/featured_corporate_pro_1791836357066.jpg";
+                  }}
                 />
                 <div>
                   <h4 className="text-xs font-bold text-[#20231f]">Tailored Finish</h4>

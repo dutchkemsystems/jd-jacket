@@ -1,6 +1,7 @@
 import React from 'react';
 import { WHO_WE_SERVE_TAGS, COMPANY_INFO } from '../data/jacketsData';
 import { CheckCircle2 } from 'lucide-react';
+import { APP_IMAGES } from '../assets/images';
 
 export const WhoWeServeSection: React.FC = () => {
   return (
@@ -57,9 +58,12 @@ export const WhoWeServeSection: React.FC = () => {
           <div className="lg:col-span-6">
             <div className="relative rounded-xl overflow-hidden border border-[#deded5] bg-white shadow-sm aspect-[16/10] group">
               <img
-                src="/src/assets/images/industry_showcase_team_1791836367778.jpg"
+                src={APP_IMAGES.industryShowcaseTeam}
                 alt="Corporate operations and management team in branded custom outerwear"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/industry_showcase_team_1791836367778.jpg";
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#20231f]/80 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 text-xs text-white">
