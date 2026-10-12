@@ -13,10 +13,13 @@ import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
 import { OrderFormModal } from './components/OrderFormModal';
 import { CatalogueModal } from './components/CatalogueModal';
+import { ConfigureStyleModal } from './components/ConfigureStyleModal';
+import { JACKET_STYLES, JacketStyle } from './data/jacketsData';
 
 export default function App() {
   const [orderModalOpen, setOrderModalOpen] = useState<boolean>(false);
   const [catalogueModalOpen, setCatalogueModalOpen] = useState<boolean>(false);
+  const [configuratorJacket, setConfiguratorJacket] = useState<JacketStyle | null>(null);
   const [preselectedJacketId, setPreselectedJacketId] = useState<string | undefined>(undefined);
   const [preselectedIndustryId, setPreselectedIndustryId] = useState<string | undefined>(undefined);
   const [galleryIndustryFilter, setGalleryIndustryFilter] = useState<string | null>(null);
@@ -25,6 +28,10 @@ export default function App() {
     setPreselectedJacketId(jacketId);
     setPreselectedIndustryId(industryId);
     setOrderModalOpen(true);
+  };
+
+  const handleConfigureStyle = (jacket: JacketStyle) => {
+    setConfiguratorJacket(jacket);
   };
 
   const handleExploreIndustryJackets = (industryName: string) => {
@@ -36,16 +43,28 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-amber-500 selection:text-neutral-950">
+    <div className="min-h-screen bg-[#f6f5f0] text-[#20231f] flex flex-col font-sans selection:bg-[#e85a2a] selection:text-white">
       {/* Sticky Top Navigation */}
       <Navbar onOpenOrderModal={() => handleOpenOrderModal()} />
 
       <main className="flex-1">
         {/* 1. Hero Section + 360 rotatable jacket showcase */}
-        <HeroSection onOpenOrderModal={() => handleOpenOrderModal('executive-puffer')} />
+        <HeroSection
+          onOpenOrderModal={() => handleOpenOrderModal('corporate-puffer')}
+          onConfigureStyle={handleConfigureStyle}
+        />
 
         {/* 2. JD Corporate Pro™ Brand Section */}
-        <CorporateProSection onOpenOrderModal={(id) => handleOpenOrderModal(id)} />
+        <CorporateProSection
+          onOpenOrderModal={(id) => {
+            const found = JACKET_STYLES.find((j) => j.id === id);
+            if (found) {
+              handleConfigureStyle(found);
+            } else {
+              handleOpenOrderModal(id);
+            }
+          }}
+        />
 
         {/* 3. Industries Section (8 industries) */}
         <IndustriesSection
@@ -71,6 +90,7 @@ export default function App() {
         {/* 8. Jacket Gallery (20 front-and-back jacket styles + 360 inspect) */}
         <JacketGallerySection
           onOpenOrderModal={(id) => handleOpenOrderModal(id)}
+          onConfigureStyle={handleConfigureStyle}
           selectedIndustryFilter={galleryIndustryFilter}
           onClearIndustryFilter={() => setGalleryIndustryFilter(null)}
         />
@@ -86,6 +106,16 @@ export default function App() {
       <Footer
         onOpenOrderModal={() => handleOpenOrderModal()}
         onOpenCatalogue={() => setCatalogueModalOpen(true)}
+      />
+
+      {/* 4K Interactive Style Configurator Modal */}
+      <ConfigureStyleModal
+        jacket={configuratorJacket}
+        isOpen={!!configuratorJacket}
+        onClose={() => setConfiguratorJacket(null)}
+        onProceedToOrderBrief={(jacketId) => {
+          handleOpenOrderModal(jacketId);
+        }}
       />
 
       {/* Multi-Step WhatsApp Order Brief Modal */}

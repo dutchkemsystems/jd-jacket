@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import {
   X,
-  CheckCircle,
   Copy,
   ExternalLink,
   ChevronRight,
   ChevronLeft,
-  Upload,
-  Calendar,
-  MapPin,
   Building,
   User,
   Phone,
   Mail,
   ShieldAlert,
-  Layers,
-  Palette,
+  MapPin,
+  Calendar,
+  CheckCircle2,
+  Eye,
+  RotateCw,
   Sparkles,
-  HelpCircle,
-  Clock
+  Maximize2,
+  ZoomIn
 } from 'lucide-react';
-import { JACKET_STYLES, INDUSTRIES, SIZE_CHART, JacketStyle } from '../data/jacketsData';
+import { JACKET_STYLES, INDUSTRIES, COMPANY_INFO, JacketStyle } from '../data/jacketsData';
 import { formatOrderWhatsAppMessage, buildWhatsAppUrl } from '../utils/whatsapp';
+import { Jacket360Viewer } from './Jacket360Viewer';
 
 interface OrderFormModalProps {
   isOpen: boolean;
@@ -31,7 +31,6 @@ interface OrderFormModalProps {
 }
 
 export interface OrderState {
-  // Step 1: Organization & Contact
   businessName: string;
   contactPerson: string;
   email: string;
@@ -41,7 +40,6 @@ export interface OrderState {
   deliveryCountry: string;
   requiredDate: string;
 
-  // Step 2: Jacket Style & Sizing
   jacketStyleId: string;
   sizes: {
     XS: number;
@@ -52,12 +50,14 @@ export interface OrderState {
     XXL: number;
     XXXL: number;
   };
+  customMeasurements?: string;
 
-  // Step 3: Color & Branding Spec
   selectedColourName: string;
   customPantoneHex: string;
   brandingMethod: string;
+  brandingOptions: string[];
   logoPlacements: string[];
+  namesOrText: string;
   artworkFileName: string;
   specialInstructions: string;
 }
@@ -69,10 +69,10 @@ const DEFAULT_ORDER: OrderState = {
   whatsappNumber: '',
   industry: 'Corporate & Office Teams',
   deliveryCity: '',
-  deliveryCountry: 'Kenya',
+  deliveryCountry: 'Botswana',
   requiredDate: '',
 
-  jacketStyleId: 'executive-puffer',
+  jacketStyleId: 'corporate-puffer',
   sizes: {
     XS: 0,
     S: 5,
@@ -82,11 +82,14 @@ const DEFAULT_ORDER: OrderState = {
     XXL: 0,
     XXXL: 0,
   },
+  customMeasurements: '',
 
-  selectedColourName: 'Midnight Obsidian',
+  selectedColourName: 'Black',
   customPantoneHex: '',
   brandingMethod: 'High-Density Multi-Thread Embroidery',
-  logoPlacements: ['Left Chest'],
+  brandingOptions: ['Embroidery', 'Logo', 'Front branding'],
+  logoPlacements: ['Left Chest (Standard)'],
+  namesOrText: '',
   artworkFileName: '',
   specialInstructions: '',
 };
@@ -101,17 +104,16 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
   const [order, setOrder] = useState<OrderState>(DEFAULT_ORDER);
   const [copied, setCopied] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [whatsappPhone, setWhatsappPhone] = useState<string>('254700000000'); // Standard JD Jackets WhatsApp Desk
+  const [visualMode, setVisualMode] = useState<'4k-product' | '4k-macro' | '360-rotate'>('4k-product');
+  const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
 
-  // Sync preselected options
   useEffect(() => {
     if (preselectedJacketId) {
+      const match = JACKET_STYLES.find((j) => j.id === preselectedJacketId);
       setOrder((prev) => ({
         ...prev,
         jacketStyleId: preselectedJacketId,
-        selectedColourName:
-          JACKET_STYLES.find((j) => j.id === preselectedJacketId)?.availableColours[0]?.name ||
-          prev.selectedColourName,
+        selectedColourName: match?.availableColours[0]?.name || prev.selectedColourName,
       }));
     }
   }, [preselectedJacketId]);
@@ -133,206 +135,212 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
   const totalQuantity = Object.values(order.sizes).reduce((sum, val) => sum + (val || 0), 0);
   const isMoqMet = totalQuantity >= currentJacket.moq;
 
-  // Toggle logo placement
-  const togglePlacement = (placement: string) => {
+  const toggleBrandingOption = (opt: string) => {
     setOrder((prev) => {
-      const exists = prev.logoPlacements.includes(placement);
-      if (exists) {
-        return {
-          ...prev,
-          logoPlacements: prev.logoPlacements.filter((p) => p !== placement),
-        };
-      } else {
-        return {
-          ...prev,
-          logoPlacements: [...prev.logoPlacements, placement],
-        };
-      }
+      const exists = prev.brandingOptions.includes(opt);
+      return {
+        ...prev,
+        brandingOptions: exists
+          ? prev.brandingOptions.filter((o) => o !== opt)
+          : [...prev.brandingOptions, opt],
+      };
     });
   };
 
-  // Generate WhatsApp Message text
-  const generateWhatsAppMessage = () => {
-    return formatOrderWhatsAppMessage(order, currentJacket);
+  const togglePlacement = (placement: string) => {
+    setOrder((prev) => {
+      const exists = prev.logoPlacements.includes(placement);
+      return {
+        ...prev,
+        logoPlacements: exists
+          ? prev.logoPlacements.filter((p) => p !== placement)
+          : [...prev.logoPlacements, placement],
+      };
+    });
   };
 
   const handleLaunchWhatsApp = () => {
-    const msg = generateWhatsAppMessage();
-    const url = buildWhatsAppUrl(whatsappPhone, msg);
+    const msg = formatOrderWhatsAppMessage(order, currentJacket);
+    const url = buildWhatsAppUrl(COMPANY_INFO.whatsappRaw, msg);
     window.open(url, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
 
   const handleCopyMessage = () => {
-    const msg = generateWhatsAppMessage();
+    const msg = formatOrderWhatsAppMessage(order, currentJacket);
     navigator.clipboard.writeText(msg);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-md overflow-y-auto">
       <div
-        className="relative w-full max-w-3xl bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl overflow-hidden my-auto"
+        className="relative w-full max-w-4xl bg-white border border-[#deded5] rounded-none shadow-2xl overflow-hidden my-auto"
         role="dialog"
         aria-modal="true"
       >
-        {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-800 bg-neutral-950/70">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#deded5] bg-[#f6f5f0]">
           <div>
-            <h2 className="text-lg font-bold text-neutral-100 flex items-center gap-2">
-              <span>Custom Jacket Order Brief</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 bg-[#e85a2a] inline-block" />
+              <h2 className="text-base font-bold text-[#20231f] uppercase tracking-wide">
+                Custom Jacket Order Configurator
+              </h2>
+              <span className="text-xs px-2 py-0.5 bg-white text-[#e85a2a] border border-[#deded5] font-mono font-bold">
                 Step {step} of 4
               </span>
-            </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              Configure your exact specs. Instant quote & proof dispatched via WhatsApp.
+            </div>
+            <p className="text-xs text-[#555850] mt-0.5">
+              Configuring: <strong className="text-[#20231f]">{currentJacket.name}</strong> ({currentJacket.sku}) · 4K Visual Preview
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 transition-colors"
-            aria-label="Close dialog"
+            className="p-1.5 text-[#555850] hover:text-[#20231f] hover:bg-[#deded5]/40 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Wizard Progress Bar */}
-        <div className="w-full bg-neutral-800 h-1">
+        {/* Progress Bar */}
+        <div className="w-full bg-[#deded5] h-1">
           <div
-            className="bg-amber-500 h-1 transition-all duration-300"
+            className="bg-[#e85a2a] h-1 transition-all duration-300"
             style={{ width: `${(step / 4) * 100}%` }}
           />
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 max-h-[75vh] overflow-y-auto space-y-6">
+        <div className="p-6 max-h-[78vh] overflow-y-auto space-y-6">
           {/* STEP 1: ORGANIZATION & CONTACT */}
           {step === 1 && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-semibold text-neutral-200 uppercase tracking-wider">
-                  1. Organization & Contact Details
+                <span className="text-[10px] font-mono font-bold uppercase text-[#e85a2a]">
+                  SECTION 01
+                </span>
+                <h3 className="text-sm font-bold text-[#20231f] uppercase tracking-wider">
+                  Organization &amp; Contact Details
                 </h3>
-                <p className="text-xs text-neutral-400">
-                  Tell us who this order is for so we can address your commercial invoice properly.
+                <p className="text-xs text-[#555850]">
+                  Share your business and location details so our team can prepare your official quote.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
                     Company / Organization Name *
                   </label>
                   <div className="relative">
-                    <Building className="w-4 h-4 absolute left-3 top-3 text-neutral-500" />
+                    <Building className="w-4 h-4 absolute left-3 top-3 text-[#85867f]" />
                     <input
                       type="text"
-                      placeholder="e.g. Apex Logistics Ltd"
+                      placeholder="e.g. Debswana Diamond Company"
                       value={order.businessName}
                       onChange={(e) => setOrder({ ...order, businessName: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
                     Contact Person *
                   </label>
                   <div className="relative">
-                    <User className="w-4 h-4 absolute left-3 top-3 text-neutral-500" />
+                    <User className="w-4 h-4 absolute left-3 top-3 text-[#85867f]" />
                     <input
                       type="text"
-                      placeholder="Full Name / Department"
+                      placeholder="Full Name / Procurement Title"
                       value={order.contactPerson}
                       onChange={(e) => setOrder({ ...order, contactPerson: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
                     WhatsApp Phone Number *
                   </label>
                   <div className="relative">
-                    <Phone className="w-4 h-4 absolute left-3 top-3 text-neutral-500" />
+                    <Phone className="w-4 h-4 absolute left-3 top-3 text-[#85867f]" />
                     <input
                       type="tel"
-                      placeholder="+254 700 000 000"
+                      placeholder="+267 75 296 591"
                       value={order.whatsappNumber}
                       onChange={(e) => setOrder({ ...order, whatsappNumber: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
                     Work Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 absolute left-3 top-3 text-neutral-500" />
+                    <Mail className="w-4 h-4 absolute left-3 top-3 text-[#85867f]" />
                     <input
                       type="email"
                       placeholder="procurement@company.com"
                       value={order.email}
                       onChange={(e) => setOrder({ ...order, email: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
                     Industry Sector *
                   </label>
                   <select
                     value={order.industry}
                     onChange={(e) => setOrder({ ...order, industry: e.target.value })}
-                    className="w-full px-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                   >
                     {INDUSTRIES.map((ind) => (
                       <option key={ind.id} value={ind.name}>
-                        {ind.name}
+                        {ind.name} ({ind.brandTag})
                       </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
-                    Delivery City / Town & Country *
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
+                    Delivery Location (Town / City &amp; Country) *
                   </label>
                   <div className="relative">
-                    <MapPin className="w-4 h-4 absolute left-3 top-3 text-neutral-500" />
+                    <MapPin className="w-4 h-4 absolute left-3 top-3 text-[#85867f]" />
                     <input
                       type="text"
-                      placeholder="Nairobi, Kenya"
+                      placeholder="Gaborone, Botswana"
                       value={order.deliveryCity}
                       onChange={(e) => setOrder({ ...order, deliveryCity: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                     />
                   </div>
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-medium text-neutral-300 mb-1.5">
-                    Target In-Hand Delivery Date
+                  <label className="block text-xs font-bold text-[#20231f] mb-1.5">
+                    Required Delivery Date
                   </label>
                   <div className="relative">
-                    <Calendar className="w-4 h-4 absolute left-3 top-3 text-neutral-500" />
+                    <Calendar className="w-4 h-4 absolute left-3 top-3 text-[#85867f]" />
                     <input
                       type="date"
                       value={order.requiredDate}
                       onChange={(e) => setOrder({ ...order, requiredDate: e.target.value })}
-                      className="w-full pl-9 pr-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
                     />
                   </div>
-                  <p className="text-[11px] text-neutral-500 mt-1">
+                  <p className="text-[11px] text-[#85867f] mt-1">
                     Standard production is 7–10 days. Need rush 3-day turnaround? Specify in notes.
                   </p>
                 </div>
@@ -340,22 +348,25 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
             </div>
           )}
 
-          {/* STEP 2: JACKET STYLE & SIZING */}
+          {/* STEP 2: JACKET MODEL, 4K PICTURE PREVIEW & SIZES */}
           {step === 2 && (
-            <div className="space-y-5">
+            <div className="space-y-6">
               <div>
-                <h3 className="text-sm font-semibold text-neutral-200 uppercase tracking-wider">
-                  2. Choose Jacket Model & Team Sizing
+                <span className="text-[10px] font-mono font-bold uppercase text-[#e85a2a]">
+                  SECTION 02
+                </span>
+                <h3 className="text-sm font-bold text-[#20231f] uppercase tracking-wider">
+                  Select Jacket Silhouette &amp; 4K Design Inspection
                 </h3>
-                <p className="text-xs text-neutral-400">
-                  Select your outerwear silhouette and input mixed unit quantities across XS–3XL.
+                <p className="text-xs text-[#555850]">
+                  Inspect the 4K high-resolution studio photography and configure team sizes.
                 </p>
               </div>
 
               {/* Jacket Selector Dropdown */}
               <div>
-                <label className="block text-xs font-medium text-neutral-300 mb-1.5">
-                  Jacket Model
+                <label className="block text-xs font-bold text-[#20231f] mb-1.5">
+                  Select Jacket Model (20 Certified Outerwear Cuts)
                 </label>
                 <select
                   value={order.jacketStyleId}
@@ -367,46 +378,166 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                       selectedColourName: chosen ? chosen.availableColours[0].name : order.selectedColourName,
                     });
                   }}
-                  className="w-full px-3 py-2 text-sm bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a] font-medium"
                 >
                   {JACKET_STYLES.map((j) => (
                     <option key={j.id} value={j.id}>
-                      {j.name} ({j.sku}) — {j.category} — MOQ: {j.moq} units
+                      {j.name} ({j.sku}) — {j.kind} — MOQ: {j.moq} pcs — {j.priceGuide}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {/* Selected Jacket Snapshot Card */}
-              <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-between gap-4">
-                <div>
-                  <h4 className="text-sm font-bold text-neutral-100">{currentJacket.name}</h4>
-                  <p className="text-xs text-neutral-400 mt-0.5">{currentJacket.tagline}</p>
-                  <div className="flex items-center gap-3 mt-2 text-xs text-neutral-400">
-                    <span>MOQ: <strong className="text-neutral-200">{currentJacket.moq} pcs</strong></span>
-                    <span>·</span>
-                    <span>Lead Time: <strong className="text-neutral-200">{currentJacket.leadTime}</strong></span>
-                    <span>·</span>
-                    <span>Price Guide: <strong className="text-amber-400">{currentJacket.priceGuide}</strong></span>
+              {/* 4K Visualizer Box (User specifically asked for 4K pictures from configure this style) */}
+              <div className="border border-[#deded5] rounded-xl overflow-hidden bg-[#f9f8f4]">
+                {/* Visualizer Mode Tabs */}
+                <div className="flex items-center justify-between px-4 py-2.5 bg-[#f6f5f0] border-b border-[#deded5] text-xs">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px] uppercase font-mono font-bold text-[#85867f] mr-2">
+                      4K View:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setVisualMode('4k-product')}
+                      className={`px-3 py-1 font-bold text-xs uppercase transition-colors ${
+                        visualMode === '4k-product'
+                          ? 'bg-[#20231f] text-white shadow-xs'
+                          : 'bg-white text-[#555850] hover:text-[#20231f] border border-[#deded5]'
+                      }`}
+                    >
+                      4K Garment Studio
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVisualMode('4k-macro')}
+                      className={`px-3 py-1 font-bold text-xs uppercase transition-colors ${
+                        visualMode === '4k-macro'
+                          ? 'bg-[#20231f] text-white shadow-xs'
+                          : 'bg-white text-[#555850] hover:text-[#20231f] border border-[#deded5]'
+                      }`}
+                    >
+                      4K Embroidery Macro
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVisualMode('360-rotate')}
+                      className={`px-3 py-1 font-bold text-xs uppercase transition-colors ${
+                        visualMode === '360-rotate'
+                          ? 'bg-[#20231f] text-white shadow-xs'
+                          : 'bg-white text-[#555850] hover:text-[#20231f] border border-[#deded5]'
+                      }`}
+                    >
+                      Interactive 360°
+                    </button>
+                  </div>
+
+                  <span className="text-[10px] font-mono font-bold text-[#e85a2a] hidden sm:inline uppercase">
+                    ULTRA-HD 4K ASSET
+                  </span>
+                </div>
+
+                {/* Main 4K Image Display Area */}
+                <div className="p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-6">
+                  <div className="relative w-full sm:w-1/2 h-64 sm:h-72 bg-white border border-[#deded5] rounded-lg overflow-hidden flex items-center justify-center p-3 shadow-inner group">
+                    {visualMode === '4k-product' && (
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <img
+                          src={currentJacket.image}
+                          alt={`${currentJacket.name} 4K Studio Image`}
+                          className="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.src = "/src/assets/images/hero_executive_puffer_1791836347853.jpg";
+                          }}
+                        />
+                        {/* Live placement badge overlay */}
+                        <div className="absolute top-2 left-2 px-2 py-0.5 bg-[#20231f]/80 text-white text-[10px] font-mono uppercase font-bold backdrop-blur-xs">
+                          {currentJacket.kind} · {currentJacket.sku}
+                        </div>
+                        <div className="absolute bottom-2 right-2 flex items-center gap-1 px-2 py-0.5 bg-white/90 border border-[#deded5] text-[10px] text-[#20231f] font-mono">
+                          <Eye className="w-3 h-3 text-[#e85a2a]" />
+                          <span>4K Commercial Asset</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {visualMode === '4k-macro' && (
+                      <div className="relative w-full h-full">
+                        <img
+                          src="/src/assets/images/jacket_configurator_closeup_4k_1791840430213.jpg"
+                          alt="4K Macro Detail of Tailored Embroidery"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute bottom-2 left-2 right-2 text-white text-[10px]">
+                          <span className="font-bold block text-amber-300">4K Precision Needlework</span>
+                          <span className="text-neutral-200">German Madeira Isacord thread · 100+ wash test</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {visualMode === '360-rotate' && (
+                      <div className="w-full h-full overflow-hidden flex items-center justify-center">
+                        <Jacket360Viewer jacket={currentJacket} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 4K Technical Specifications Column */}
+                  <div className="w-full sm:w-1/2 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono font-bold uppercase text-[#e85a2a]">
+                        {currentJacket.collection ? currentJacket.collection.toUpperCase() + ' PRO™' : currentJacket.category}
+                      </span>
+                      <span className="text-xs font-bold text-[#20231f] font-mono">
+                        {currentJacket.priceGuide}
+                      </span>
+                    </div>
+
+                    <h4 className="text-base font-extrabold text-[#20231f]">
+                      {currentJacket.name}
+                    </h4>
+
+                    <p className="text-xs text-[#555850] leading-relaxed">
+                      {currentJacket.description}
+                    </p>
+
+                    <div className="p-3 bg-white border border-[#deded5] rounded text-xs space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-[#85867f]">Fabrication:</span>
+                        <span className="font-medium text-[#20231f] text-right max-w-[200px] truncate">{currentJacket.fabricSpecs}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#85867f]">Weather Rating:</span>
+                        <span className="font-bold text-[#e85a2a]">{currentJacket.weatherRating}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#85867f]">Minimum Order:</span>
+                        <span className="font-bold text-[#20231f]">{currentJacket.moq} units</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#85867f]">Lead Time:</span>
+                        <span className="font-bold text-[#20231f]">{currentJacket.leadTime}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Sizing Breakdown Input Matrix */}
+              {/* Sizing Breakdown Matrix */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">
+                  <label className="text-xs font-bold text-[#20231f] uppercase tracking-wider">
                     Mixed Size Breakdown (Units per Size)
                   </label>
-                  <span className="text-xs text-neutral-400">
-                    Total: <strong className="text-amber-400 font-mono text-sm">{totalQuantity}</strong> units
+                  <span className="text-xs text-[#20231f] font-semibold">
+                    Total: <strong className="text-[#e85a2a] font-mono text-sm">{totalQuantity}</strong> units
                   </span>
                 </div>
 
                 <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
                   {(['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'] as const).map((sz) => (
-                    <div key={sz} className="p-2 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-                      <div className="text-xs font-bold text-neutral-300 mb-1">{sz}</div>
+                    <div key={sz} className="p-2 bg-[#f6f5f0] border border-[#deded5] text-center">
+                      <div className="text-xs font-bold text-[#20231f] mb-1">{sz}</div>
                       <input
                         type="number"
                         min="0"
@@ -418,18 +549,30 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                             sizes: { ...order.sizes, [sz]: val },
                           });
                         }}
-                        className="w-full text-center py-1 text-sm bg-neutral-900 border border-neutral-700 rounded text-neutral-100 focus:outline-none focus:border-amber-500 font-mono"
+                        className="w-full text-center py-1 text-sm bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a] font-mono"
                       />
                     </div>
                   ))}
                 </div>
 
-                {/* MOQ Warning / Notice */}
+                <div className="mt-3">
+                  <label className="block text-[11px] font-bold text-[#6e7068] mb-1">
+                    Special Fitting / Custom Measurements (Optional):
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 2x Tall Sleeve +5cm, 1x Custom 4XL, Chest measurements"
+                    value={order.customMeasurements || ''}
+                    onChange={(e) => setOrder({ ...order, customMeasurements: e.target.value })}
+                    className="w-full px-3 py-1.5 text-xs bg-white border border-[#deded5] text-[#20231f] focus:outline-none focus:border-[#e85a2a]"
+                  />
+                </div>
+
                 {!isMoqMet && (
-                  <div className="mt-3 p-3 rounded-lg bg-amber-950/30 border border-amber-800/40 text-xs text-amber-300 flex items-center gap-2">
-                    <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
+                  <div className="mt-3 p-3 bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
                     <span>
-                      Current quantity ({totalQuantity}) is below this style's minimum order quantity ({currentJacket.moq} units). We can discuss sample runs on WhatsApp!
+                      Current quantity ({totalQuantity}) is below this style's standard MOQ ({currentJacket.moq} units). We happily discuss sample runs on WhatsApp!
                     </span>
                   </div>
                 )}
@@ -437,22 +580,25 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
             </div>
           )}
 
-          {/* STEP 3: COLOR & BRANDING SPEC */}
+          {/* STEP 3: BRANDING & SPEC */}
           {step === 3 && (
             <div className="space-y-5">
               <div>
-                <h3 className="text-sm font-semibold text-neutral-200 uppercase tracking-wider">
-                  3. Colours & Branding Specifications
+                <span className="text-[10px] font-mono font-bold uppercase text-[#e85a2a]">
+                  SECTION 03
+                </span>
+                <h3 className="text-sm font-bold text-[#20231f] uppercase tracking-wider">
+                  Colors &amp; Branding Details
                 </h3>
-                <p className="text-xs text-neutral-400">
-                  Select garment shades, decoration technique, and logo placements.
+                <p className="text-xs text-[#555850]">
+                  Select garment colors, branding options, and logo placements.
                 </p>
               </div>
 
-              {/* Color Selection */}
+              {/* Color swatches */}
               <div>
-                <label className="block text-xs font-medium text-neutral-300 mb-2">
-                  Garment Color Palette
+                <label className="block text-xs font-bold text-[#20231f] mb-2">
+                  Garment Color Preference
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {currentJacket.availableColours.map((c) => (
@@ -460,17 +606,17 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                       key={c.name}
                       type="button"
                       onClick={() => setOrder({ ...order, selectedColourName: c.name })}
-                      className={`p-3 rounded-lg border text-left transition-all flex items-center gap-3 ${
+                      className={`p-3 border text-left transition-all flex items-center gap-3 ${
                         order.selectedColourName === c.name
-                          ? 'border-amber-500 bg-amber-500/10'
-                          : 'border-neutral-800 bg-neutral-950 hover:border-neutral-700'
+                          ? 'border-[#e85a2a] bg-orange-50/50'
+                          : 'border-[#deded5] bg-white hover:border-[#85867f]'
                       }`}
                     >
                       <span
-                        className="w-5 h-5 rounded-full border border-neutral-600 shrink-0 shadow-sm"
+                        className="w-5 h-5 rounded-full border border-[#deded5] shrink-0"
                         style={{ backgroundColor: c.hex }}
                       />
-                      <span className="text-xs font-medium text-neutral-200 truncate">
+                      <span className="text-xs font-bold text-[#20231f] truncate">
                         {c.name}
                       </span>
                     </button>
@@ -478,64 +624,59 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                 </div>
 
                 <div className="mt-3">
-                  <label className="block text-[11px] text-neutral-400 mb-1">
-                    Custom Pantone (PMS) or Hex Code (Optional for 50+ unit custom dye orders):
+                  <label className="block text-[11px] font-bold text-[#6e7068] mb-1">
+                    Custom Pantone / Brand Color Code (Optional):
                   </label>
                   <input
                     type="text"
                     placeholder="e.g. Pantone 289 C / #0C2340"
                     value={order.customPantoneHex}
                     onChange={(e) => setOrder({ ...order, customPantoneHex: e.target.value })}
-                    className="w-full px-3 py-1.5 text-xs bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500 font-mono"
+                    className="w-full px-3 py-1.5 text-xs bg-white border border-[#deded5] text-[#20231f] font-mono"
                   />
                 </div>
               </div>
 
-              {/* Branding Method */}
+              {/* Branding Options Checkboxes */}
               <div>
-                <label className="block text-xs font-medium text-neutral-300 mb-2">
-                  Branding Application Method *
+                <label className="block text-xs font-bold text-[#20231f] mb-2">
+                  Branding Required (Select all that apply)
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {[
-                    {
-                      id: 'High-Density Multi-Thread Embroidery',
-                      desc: 'Premium tactile finish, up to 15 thread shades. Permanent and wash-proof.',
-                    },
-                    {
-                      id: '3D Embossed Silicone/Rubber Badge',
-                      desc: 'Ultra-modern athletic luxury feel with crisp raised dimensional lines.',
-                    },
-                    {
-                      id: 'Precision Technical Screen Printing',
-                      desc: 'Ideal for oversized back branding and lightweight waterproof shells.',
-                    },
-                    {
-                      id: '3M Reflective Heat Transfer',
-                      desc: 'Night safety illumination for logistics, transport, and site teams.',
-                    },
-                  ].map((method) => (
-                    <button
-                      key={method.id}
-                      type="button"
-                      onClick={() => setOrder({ ...order, brandingMethod: method.id })}
-                      className={`p-3 rounded-lg border text-left transition-all ${
-                        order.brandingMethod === method.id
-                          ? 'border-amber-500 bg-amber-500/10'
-                          : 'border-neutral-800 bg-neutral-950 hover:border-neutral-700'
-                      }`}
-                    >
-                      <div className="text-xs font-semibold text-neutral-200">{method.id}</div>
-                      <div className="text-[11px] text-neutral-400 mt-1">{method.desc}</div>
-                    </button>
-                  ))}
+                    'Embroidery',
+                    'Printing',
+                    'Logo',
+                    'Front branding',
+                    'Back branding',
+                    'Sleeve branding',
+                    '3D Silicone Badge',
+                    'Reflective Tape',
+                  ].map((opt) => {
+                    const checked = order.brandingOptions.includes(opt);
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => toggleBrandingOption(opt)}
+                        className={`p-2.5 text-xs font-bold text-left border flex items-center justify-between transition-colors ${
+                          checked
+                            ? 'border-[#e85a2a] bg-orange-50/50 text-[#e85a2a]'
+                            : 'border-[#deded5] bg-white text-[#20231f]'
+                        }`}
+                      >
+                        <span>{opt}</span>
+                        {checked && <CheckCircle2 className="w-3.5 h-3.5 text-[#e85a2a]" />}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Logo Placements */}
+              {/* Logo Placement buttons */}
               <div>
-                <label className="block text-xs font-medium text-neutral-300 mb-2">
-                  Logo Placement Locations (Select all that apply)
+                <label className="block text-xs font-bold text-[#20231f] mb-2">
+                  Logo Placement Locations
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {[
@@ -552,69 +693,95 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                         key={loc}
                         type="button"
                         onClick={() => togglePlacement(loc)}
-                        className={`px-3 py-2 rounded-lg border text-xs font-medium transition-all text-left flex items-center justify-between ${
+                        className={`px-3 py-2 border text-xs font-bold transition-all text-left flex items-center justify-between ${
                           active
-                            ? 'border-amber-500 bg-amber-500/15 text-amber-300'
-                            : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:border-neutral-700'
+                            ? 'border-[#e85a2a] bg-orange-50 text-[#e85a2a]'
+                            : 'border-[#deded5] bg-white text-[#20231f]'
                         }`}
                       >
                         <span>{loc}</span>
-                        {active && <CheckCircle className="w-3.5 h-3.5 text-amber-400" />}
+                        {active && <CheckCircle2 className="w-3.5 h-3.5 text-[#e85a2a]" />}
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Artwork & File notes */}
-              <div className="p-3.5 rounded-xl bg-neutral-950 border border-neutral-800 space-y-2">
-                <label className="block text-xs font-medium text-neutral-300">
-                  Artwork File Reference (Filename or Google Drive / Cloud Link)
+              {/* Names / Text to Add */}
+              <div>
+                <label className="block text-xs font-bold text-[#20231f] mb-1.5">
+                  Names / Text to Add (Company name, individual staff names, or tagline)
                 </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="e.g. Apex_Logo_Vector_Final.ai or DropBox link"
-                    value={order.artworkFileName}
-                    onChange={(e) => setOrder({ ...order, artworkFileName: e.target.value })}
-                    className="flex-1 px-3 py-1.5 text-xs bg-neutral-900 border border-neutral-700 rounded-lg text-neutral-200 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-                <p className="text-[11px] text-neutral-500">
-                  You can attach your raw vector files (AI, PDF, EPS, PNG) directly when the WhatsApp chat opens!
+                <input
+                  type="text"
+                  placeholder="e.g. Debswana Diamond Company · Security Division"
+                  value={order.namesOrText}
+                  onChange={(e) => setOrder({ ...order, namesOrText: e.target.value })}
+                  className="w-full px-3 py-2 text-sm bg-white border border-[#deded5] text-[#20231f]"
+                />
+              </div>
+
+              {/* Artwork Filename */}
+              <div className="p-3.5 bg-[#f6f5f0] border border-[#deded5] space-y-1.5">
+                <label className="block text-xs font-bold text-[#20231f]">
+                  Artwork Filenames / Google Drive Link
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Company_Logo_Vector_Final.ai or DropBox link"
+                  value={order.artworkFileName}
+                  onChange={(e) => setOrder({ ...order, artworkFileName: e.target.value })}
+                  className="w-full px-3 py-1.5 text-xs bg-white border border-[#deded5] text-[#20231f]"
+                />
+                <p className="text-[11px] text-[#85867f]">
+                  Files stay on your device. Their names are included in your message; attach the actual files directly in WhatsApp!
                 </p>
               </div>
             </div>
           )}
 
-          {/* STEP 4: REVIEW & WHATSAPP DISPATCH */}
+          {/* STEP 4: REVIEW & DISPATCH */}
           {step === 4 && (
             <div className="space-y-5">
               <div>
-                <h3 className="text-sm font-semibold text-neutral-200 uppercase tracking-wider">
-                  4. Review & Dispatch to WhatsApp Desk
+                <span className="text-[10px] font-mono font-bold uppercase text-[#e85a2a]">
+                  SECTION 04
+                </span>
+                <h3 className="text-sm font-bold text-[#20231f] uppercase tracking-wider">
+                  Review &amp; Send to WhatsApp Desk
                 </h3>
-                <p className="text-xs text-neutral-400">
-                  Review your formatted order briefing before launching your WhatsApp inquiry.
+                <p className="text-xs text-[#555850]">
+                  Your request goes directly to JD &amp; Co BW in Gaborone for instant quotation and digital proof.
                 </p>
               </div>
 
-              {/* Summary Card */}
-              <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-800 pb-3">
-                  <div>
-                    <span className="text-xs text-neutral-500 uppercase tracking-wider">Client</span>
-                    <h4 className="text-sm font-bold text-neutral-100">
-                      {order.businessName || 'Business Name Pending'}
-                    </h4>
-                    <p className="text-xs text-neutral-400">
-                      Attn: {order.contactPerson || 'Procurement Team'} · {order.industry}
-                    </p>
+              {/* Summary Card with 4K thumbnail */}
+              <div className="p-4 bg-[#f6f5f0] border border-[#deded5] space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#deded5] pb-3">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={currentJacket.image}
+                      alt={currentJacket.name}
+                      className="w-14 h-14 object-contain bg-white border border-[#deded5] p-1"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                    <div>
+                      <span className="text-[10px] uppercase font-mono font-bold text-[#85867f]">Client</span>
+                      <h4 className="text-base font-bold text-[#20231f]">
+                        {order.businessName || 'Business Name Pending'}
+                      </h4>
+                      <p className="text-xs text-[#555850]">
+                        Attn: {order.contactPerson || 'Procurement Team'} · {order.industry}
+                      </p>
+                    </div>
                   </div>
+
                   <div className="text-right">
-                    <span className="text-xs text-neutral-500 uppercase tracking-wider">Total Units</span>
-                    <p className="text-lg font-bold text-amber-400 font-mono">{totalQuantity} units</p>
-                    <span className="text-[11px] text-neutral-400">
+                    <span className="text-[10px] uppercase font-mono font-bold text-[#85867f]">Total Units</span>
+                    <p className="text-xl font-bold text-[#e85a2a] font-mono">{totalQuantity} units</p>
+                    <span className="text-xs font-bold text-[#20231f]">
                       {currentJacket.name} ({order.selectedColourName})
                     </span>
                   </div>
@@ -622,61 +789,61 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                   <div>
-                    <span className="text-neutral-500 block">Branding:</span>
-                    <span className="font-medium text-neutral-300">{order.brandingMethod}</span>
-                  </div>
-                  <div>
-                    <span className="text-neutral-500 block">Placements:</span>
-                    <span className="font-medium text-neutral-300">
-                      {order.logoPlacements.join(', ') || 'Left Chest'}
+                    <span className="text-[#85867f] block font-mono font-bold">Branding:</span>
+                    <span className="font-bold text-[#20231f]">
+                      {order.brandingOptions.join(', ') || 'Embroidery'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-neutral-500 block">Delivery:</span>
-                    <span className="font-medium text-neutral-300">
-                      {order.deliveryCity || 'TBD'}, {order.deliveryCountry}
+                    <span className="text-[#85867f] block font-mono font-bold">Delivery:</span>
+                    <span className="font-bold text-[#20231f]">
+                      {order.deliveryCity || 'Gaborone'}, {order.deliveryCountry}
                     </span>
                   </div>
                   <div>
-                    <span className="text-neutral-500 block">Required Date:</span>
-                    <span className="font-medium text-neutral-300">
+                    <span className="text-[#85867f] block font-mono font-bold">Date:</span>
+                    <span className="font-bold text-[#20231f]">
                       {order.requiredDate || 'Standard 7–10d'}
                     </span>
+                  </div>
+                  <div>
+                    <span className="text-[#85867f] block font-mono font-bold">Desk Phone:</span>
+                    <span className="font-bold text-[#e85a2a] font-mono">+267 75 296 591</span>
                   </div>
                 </div>
               </div>
 
-              {/* Formatted Message Preview */}
+              {/* Message Preview */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">
+                  <label className="text-xs font-bold text-[#20231f] uppercase tracking-wider">
                     WhatsApp Message Preview
                   </label>
                   <button
                     onClick={handleCopyMessage}
-                    className="flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-[#e85a2a] hover:text-[#cf4920] font-bold"
                   >
                     <Copy className="w-3.5 h-3.5" />
                     <span>{copied ? 'Copied!' : 'Copy to Clipboard'}</span>
                   </button>
                 </div>
-                <pre className="p-3.5 rounded-xl bg-neutral-950 border border-neutral-800 text-[11px] text-neutral-300 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto leading-relaxed">
-                  {generateWhatsAppMessage()}
+                <pre className="p-3.5 bg-white border border-[#deded5] text-[11px] text-[#20231f] font-mono whitespace-pre-wrap max-h-48 overflow-y-auto leading-relaxed">
+                  {formatOrderWhatsAppMessage(order, currentJacket)}
                 </pre>
               </div>
 
-              {/* Direct WhatsApp Action Bar */}
-              <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-800/40 space-y-3">
+              {/* Dispatch Action Button */}
+              <div className="p-4 bg-emerald-50 border border-emerald-200 space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-emerald-600 text-white shrink-0 mt-0.5">
+                  <div className="p-2 bg-emerald-600 text-white shrink-0">
                     <ExternalLink className="w-5 h-5" />
                   </div>
                   <div>
-                    <h5 className="text-sm font-semibold text-emerald-300">
-                      Connect Directly on WhatsApp
+                    <h5 className="text-sm font-bold text-emerald-950">
+                      Send Order on WhatsApp (+267 75 296 591)
                     </h5>
-                    <p className="text-xs text-neutral-300 mt-0.5">
-                      Click below to open WhatsApp with all specifications preloaded. Our design team will respond with your digital visual proof and official quote.
+                    <p className="text-xs text-emerald-800 mt-0.5">
+                      This starts your order / quotation conversation with JD &amp; Co BW. Our team confirms pricing, design approval, availability and delivery before production.
                     </p>
                   </div>
                 </div>
@@ -684,23 +851,23 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
                 <button
                   type="button"
                   onClick={handleLaunchWhatsApp}
-                  className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>Send Order Brief on WhatsApp (wa.me)</span>
+                  <span>Send Order on WhatsApp Now (wa.me)</span>
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Modal Footer Controls */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-800 bg-neutral-950/70">
+        {/* Footer Navigation */}
+        <div className="flex items-center justify-between px-6 py-4 border-t border-[#deded5] bg-[#f6f5f0]">
           {step > 1 ? (
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="px-4 py-2 text-xs font-semibold text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors flex items-center gap-1"
+              className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#20231f] bg-white border border-[#deded5] hover:bg-[#deded5]/30 transition-colors flex items-center gap-1 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>Back</span>
@@ -714,7 +881,7 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
               <button
                 type="button"
                 onClick={() => setStep(step + 1)}
-                className="px-5 py-2 text-xs font-bold text-neutral-950 bg-amber-500 hover:bg-amber-400 rounded-lg transition-colors flex items-center gap-1.5 shadow-md"
+                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#e85a2a] hover:bg-[#cf4920] transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <span>Continue to Step {step + 1}</span>
                 <ChevronRight className="w-4 h-4" />
@@ -723,7 +890,7 @@ export const OrderFormModal: React.FC<OrderFormModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-neutral-200"
+                className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#85867f] hover:text-[#20231f] cursor-pointer"
               >
                 Close Window
               </button>

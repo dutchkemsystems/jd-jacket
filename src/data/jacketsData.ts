@@ -2,11 +2,13 @@ export interface JacketStyle {
   id: string;
   sku: string;
   name: string;
-  category: 'Puffer' | 'Softshell' | 'Parka' | 'Fleece' | 'Safety' | 'Bomber' | 'Windbreaker' | 'Vest' | 'Hybrid' | 'Technical';
+  collection: 'corporate' | 'campus' | 'healthcare' | 'logistics' | 'tactical' | 'mining' | 'safari' | 'sport';
+  category: 'Puffer' | 'Softshell' | 'Parka' | 'Fleece' | 'Safety' | 'Bomber' | 'Windbreaker' | 'Vest' | 'Technical' | 'Safety jacket' | 'Bodywarmer';
+  kind: string;
   industry: string;
   tagline: string;
   description: string;
-  moq: number; // Minimum Order Quantity
+  moq: number;
   leadTime: string;
   weatherRating: 'Waterproof (10k)' | 'Water-Resistant' | 'Windproof' | 'Extreme Cold (-20°C)' | 'All-Weather';
   availableColours: { name: string; hex: string; accentHex?: string }[];
@@ -15,25 +17,43 @@ export interface JacketStyle {
   featured?: boolean;
   priceGuide: string;
   fabricSpecs: string;
+  image: string;
+  aspect: number;
 }
+
+export const COMPANY_INFO = {
+  name: 'JD Jackets by JD & Co BW',
+  legalName: 'JD & Co.BW — Jacket Manufacturers of Distinction',
+  location: 'Gaborone, Botswana',
+  email: 'info@jdandcobw.com',
+  phone: '+267 75 296 591',
+  whatsappRaw: '26775296591',
+  motto: 'FEEL IT. WEAR IT. REPRESENT IT. PROUDLY.',
+  vision: 'YOUR VISION. OUR CRAFT. YOUR IDENTITY.',
+  defaultWhatsAppMessage: 'Hello JD Jackets, I am interested in custom jackets for my business and would like to get more information.',
+};
 
 export const JACKET_STYLES: JacketStyle[] = [
   {
-    id: 'executive-puffer',
+    id: 'corporate-puffer',
     sku: 'JD-EP01',
-    name: 'Executive Puffer Jacket',
+    name: 'Corporate Executive Puffer',
+    collection: 'corporate',
     category: 'Puffer',
+    kind: 'Puffer',
     industry: 'Corporate & Office Teams',
     tagline: 'Refined insulation engineered for corporate leadership and modern workplace agility.',
-    description: 'Matte micro-ripstop shell filled with eco-down insulation. Features hidden internal security pocket, fleece-lined chin guard, and ergonomic cut designed to fit comfortably over suits and business attire.',
+    description: 'Matte micro-ripstop shell filled with eco-down insulation. Features hidden internal security pocket, fleece-lined chin guard, and ergonomic cut designed to fit comfortably over business attire.',
     moq: 15,
     leadTime: '7–10 days',
     weatherRating: 'Water-Resistant',
+    image: '/gallery/images/corporate-puffer.f163f7f5fd.png',
+    aspect: 0.75,
     availableColours: [
-      { name: 'Midnight Obsidian', hex: '#141416', accentHex: '#262629' },
-      { name: 'Corporate Navy', hex: '#16233B', accentHex: '#25385C' },
-      { name: 'Steel Graphite', hex: '#34383F', accentHex: '#4A4F59' },
-      { name: 'Alpine Moss', hex: '#243329', accentHex: '#354D3D' },
+      { name: 'Black', hex: '#1c1d1a', accentHex: '#31332e' },
+      { name: 'Corporate Navy', hex: '#16233b', accentHex: '#25385c' },
+      { name: 'Steel Graphite', hex: '#424b57', accentHex: '#5b6470' },
+      { name: 'Alpine Moss', hex: '#2b3629', accentHex: '#3e4d3a' },
     ],
     brandingMethods: ['Embroidery', '3D Silicone Badge'],
     recommendedPlacements: ['Left Chest', 'Left Sleeve', 'Collar'],
@@ -42,405 +62,463 @@ export const JACKET_STYLES: JacketStyle[] = [
     fabricSpecs: '100% Recycled Nylon Ripstop with DWR finish, 280gsm synthetic cluster insulation'
   },
   {
-    id: 'technical-softshell',
-    sku: 'JD-TS02',
-    name: 'Technical Softshell Jacket',
+    id: 'campus-softshell',
+    sku: 'JD-CS02',
+    name: 'Campus Crest Softshell',
+    collection: 'campus',
     category: 'Softshell',
-    industry: 'Logistics & Transport',
-    tagline: 'Breathable 3-layer stretch membrane tailored for active dispatch and field operations.',
-    description: 'Engineered bonded softshell with breathable micro-fleece interior. Water-shedding exterior with articulated sleeves and bonded zip pockets for daily mobility.',
-    moq: 15,
+    kind: 'Softshell',
+    industry: 'Schools & Education',
+    tagline: 'Breathable 3-layer stretch membrane tailored for academic teams, faculty, and prefect bodies.',
+    description: 'Brings your school or university identity to life with sharp contrast trims, high-density crest embroidery, and all-weather micro-fleece lining.',
+    moq: 20,
     leadTime: '7–10 days',
     weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/campus-softshell.e6de842396.png',
+    aspect: 0.75,
     availableColours: [
-      { name: 'Carbon Black', hex: '#171717', accentHex: '#262626' },
-      { name: 'Royal Fleet', hex: '#1E3A8A', accentHex: '#2563EB' },
-      { name: 'Storm Grey', hex: '#4B5563', accentHex: '#6B7280' },
-      { name: 'Signal Orange Trim', hex: '#1C1917', accentHex: '#EA580C' }
+      { name: 'Navy', hex: '#233a57', accentHex: '#3b587d' },
+      { name: 'Varsity Black', hex: '#1a1c19', accentHex: '#333630' },
+      { name: 'Deep Maroon', hex: '#5c1d24', accentHex: '#802b34' }
     ],
-    brandingMethods: ['Embroidery', 'Screen Printing', 'Reflective Transfer'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
+    brandingMethods: ['Embroidery', 'Screen Printing'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
+    featured: true,
     priceGuide: 'From $42 / unit',
     fabricSpecs: '320gsm 3-layer bonded polyester/spandex with TPU waterproof membrane (8,000mm/3,000g)'
   },
   {
-    id: 'heavy-weather-parka',
-    sku: 'JD-HW03',
-    name: 'Heavy Weather Expedition Parka',
-    category: 'Parka',
-    industry: 'Construction, Mining & Engineering',
-    tagline: 'Rugged severe-weather protection with storm-flap seals and thermal containment.',
-    description: 'Heavyweight ripstop outer shell with seam-sealed taped waterproofing and detachable storm hood. Built for sub-zero outdoor sites and industrial field teams.',
-    moq: 10,
-    leadTime: '10–14 days',
-    weatherRating: 'Extreme Cold (-20°C)',
-    availableColours: [
-      { name: 'Tough Black', hex: '#121212', accentHex: '#292524' },
-      { name: 'Worksite Navy', hex: '#172554', accentHex: '#1D4ED8' },
-      { name: 'Industrial Khaki', hex: '#57534E', accentHex: '#78716C' }
-    ],
-    brandingMethods: ['Embroidery', 'Reflective Transfer', '3D Silicone Badge'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
-    priceGuide: 'From $68 / unit',
-    fabricSpecs: '450D Oxford Nylon with PU 10,000mm coating, 350gsm quilted thermal fill'
-  },
-  {
-    id: 'corporate-microfleece',
-    sku: 'JD-CF04',
-    name: 'Corporate Microfleece Full-Zip',
-    category: 'Fleece',
-    industry: 'Corporate & Office Teams',
-    tagline: 'Anti-pill bonded microfleece for climate-controlled offices and transitional layering.',
-    description: 'Lightweight, ultra-soft anti-pill fleece featuring raglan sleeve construction and tonal coil zippers. Ideal for indoor corporate staff uniforms and customer-facing teams.',
-    moq: 20,
-    leadTime: '5–7 days',
-    weatherRating: 'Windproof',
-    availableColours: [
-      { name: 'Executive Black', hex: '#18181B', accentHex: '#27272A' },
-      { name: 'Heather Charcoal', hex: '#374151', accentHex: '#4B5563' },
-      { name: 'Deep Harbor Blue', hex: '#0F172A', accentHex: '#1E293B' },
-      { name: 'Burgundy Wine', hex: '#4C0519', accentHex: '#881337' }
-    ],
-    brandingMethods: ['Embroidery', '3D Silicone Badge'],
-    recommendedPlacements: ['Left Chest', 'Right Chest', 'Collar'],
-    priceGuide: 'From $32 / unit',
-    fabricSpecs: '260gsm 100% Anti-pill Polyester microfleece, double-brushed'
-  },
-  {
-    id: 'high-vis-safety-shell',
-    sku: 'JD-HV05',
-    name: 'High-Vis Safety Shell Jacket',
-    category: 'Safety',
-    industry: 'Security & Operational Teams',
-    tagline: 'Certified ANSI/EN compliant high-visibility outer shell with 3M reflective tape.',
-    description: 'Fluorescent waterproof outer shell with certified retro-reflective chevron striping, radio loops, and ID badge window. Keeps field personnel safe and immediately identifiable.',
-    moq: 15,
-    leadTime: '7–10 days',
-    weatherRating: 'Waterproof (10k)',
-    availableColours: [
-      { name: 'Safety Hi-Vis Yellow', hex: '#CA8A04', accentHex: '#000000' },
-      { name: 'Hi-Vis Safety Orange', hex: '#C2410C', accentHex: '#000000' },
-      { name: 'Two-Tone Navy & Yellow', hex: '#1E293B', accentHex: '#EAB308' }
-    ],
-    brandingMethods: ['Reflective Transfer', 'Screen Printing', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
-    priceGuide: 'From $46 / unit',
-    fabricSpecs: '300D Polyester Oxford with PU backing, Class 3 certified 3M Scotchlite tape'
-  },
-  {
-    id: 'heritage-varsity-bomber',
-    sku: 'JD-VB06',
-    name: 'Heritage Varsity Bomber',
-    category: 'Bomber',
-    industry: 'Schools & Education',
-    tagline: 'Classic collegiate wool-blend torso with leatherette sleeves and striped rib trim.',
-    description: 'Iconic varsity silhouette popular with secondary schools, universities, alumni associations, and creative brand agencies. Fully custom striped collar and cuff tipping.',
-    moq: 20,
-    leadTime: '12–16 days',
-    weatherRating: 'Windproof',
-    availableColours: [
-      { name: 'School Navy & Cream', hex: '#1E3A8A', accentHex: '#FEF3C7' },
-      { name: 'Varsity Black & White', hex: '#18181B', accentHex: '#F4F4F5' },
-      { name: 'Maroon & Gold', hex: '#7F1D1D', accentHex: '#F59E0B' },
-      { name: 'Forest Green & Cream', hex: '#14532D', accentHex: '#FEF3C7' }
-    ],
-    brandingMethods: ['Embroidery', 'Screen Printing'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
-    priceGuide: 'From $54 / unit',
-    fabricSpecs: 'Heavyweight 450gsm wool blend body with premium vegan leather sleeves and satin lining'
-  },
-  {
-    id: 'packable-windbreaker',
-    sku: 'JD-LW07',
-    name: 'Lightweight Packable Windbreaker',
-    category: 'Windbreaker',
-    industry: 'Sports & Events',
-    tagline: 'Featherweight weather shield that packs into its own pocket for event crews.',
-    description: 'Compact 85gsm ripstop nylon with water-repellent coating. Features elastic storm hood, hem cinch toggles, and breathable underarm eyelets.',
-    moq: 25,
-    leadTime: '5–7 days',
-    weatherRating: 'Water-Resistant',
-    availableColours: [
-      { name: 'Matte Black', hex: '#0A0A0A', accentHex: '#27272A' },
-      { name: 'Electric Cyan', hex: '#0284C7', accentHex: '#38BDF8' },
-      { name: 'Team Crimson', hex: '#B91C1C', accentHex: '#EF4444' },
-      { name: 'Pure White Shell', hex: '#F8FAFC', accentHex: '#0F172A' }
-    ],
-    brandingMethods: ['Screen Printing', 'Reflective Transfer', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
-    priceGuide: 'From $28 / unit',
-    fabricSpecs: '85gsm 100% Micro-polyester with water-repellent and wind-lock weave'
-  },
-  {
-    id: 'quilted-field-vest',
-    sku: 'JD-QV08',
-    name: 'Quilted Field Bodywarmer Vest',
-    category: 'Vest',
-    industry: 'Tourism & Hospitality',
-    tagline: 'Sleeveless diamond-quilted warmth that allows unrestricted hospitality service.',
-    description: 'Sophisticated diamond quilt pattern with brass-finish snaps and high stand collar. Perfect for safari lodges, vineyard staff, outdoor tour guides, and hotel concierges.',
-    moq: 15,
-    leadTime: '7–10 days',
-    weatherRating: 'Windproof',
-    availableColours: [
-      { name: 'Safari Olive', hex: '#36453B', accentHex: '#596F62' },
-      { name: 'Tavern Navy', hex: '#1E293B', accentHex: '#334155' },
-      { name: 'Rich Tobacco', hex: '#451A03', accentHex: '#78350F' },
-      { name: 'Shadow Black', hex: '#171717', accentHex: '#262626' }
-    ],
-    brandingMethods: ['Embroidery', '3D Silicone Badge'],
-    recommendedPlacements: ['Left Chest', 'Collar'],
-    priceGuide: 'From $39 / unit',
-    fabricSpecs: 'Diamond-stitched matte peach-finish polyester with 180gsm polyfill'
-  },
-  {
-    id: 'hybrid-bonded-knit',
-    sku: 'JD-HB09',
-    name: 'Hybrid Bonded Performance Jacket',
-    category: 'Hybrid',
-    industry: 'Corporate & Office Teams',
-    tagline: 'Padded insulated core combined with stretch-knit active sleeves.',
-    description: 'The modern executive uniform standard: lightweight baffle insulation across the chest and back paired with technical knit stretch sleeves for all-day computer & travel comfort.',
-    moq: 15,
-    leadTime: '7–10 days',
-    weatherRating: 'Water-Resistant',
-    availableColours: [
-      { name: 'Anthracite / Black', hex: '#1C1917', accentHex: '#44403C' },
-      { name: 'Navy / Heather Slate', hex: '#0F172A', accentHex: '#334155' }
-    ],
-    brandingMethods: ['Embroidery', '3D Silicone Badge'],
-    recommendedPlacements: ['Left Chest', 'Left Sleeve', 'Collar'],
-    priceGuide: 'From $49 / unit',
-    fabricSpecs: 'Body: 100% nylon 120gsm with insulation; Sleeves: 94% polyester 6% spandex knit'
-  },
-  {
-    id: 'all-weather-storm-shield',
-    sku: 'JD-SS10',
-    name: 'All-Weather Storm Shield Jacket',
-    category: 'Technical',
-    industry: 'Logistics & Transport',
-    tagline: 'Fully taped seams with waterproof storm flap and concealed helmet hood.',
-    description: 'Engineered for rainy delivery routes and seaport cargo handlers. Features waterproof zippers, storm storm cuffs with thumb loops, and drop-tail hem for cycling/driving.',
-    moq: 15,
-    leadTime: '8–12 days',
-    weatherRating: 'Waterproof (10k)',
-    availableColours: [
-      { name: 'Black Seal', hex: '#0F172A', accentHex: '#1E293B' },
-      { name: 'Dark Petrol', hex: '#134E4A', accentHex: '#0D9488' },
-      { name: 'Storm Grey', hex: '#374151', accentHex: '#6B7280' }
-    ],
-    brandingMethods: ['Reflective Transfer', 'Screen Printing', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
-    priceGuide: 'From $52 / unit',
-    fabricSpecs: '3-layer ripstop taslan with microporous 10,000mm/10,000g waterproof membrane'
-  },
-  {
-    id: 'corporate-track-zip',
-    sku: 'JD-CT11',
-    name: 'Athletic Team Track Jacket',
-    category: 'Technical',
-    industry: 'Sports & Events',
-    tagline: 'Moisture-wicking tricot poly zip with contrast shoulder piping for athletic staff.',
-    description: 'Designed for coaching staff, marathon event directors, and university sports delegations. Features ribbed cuffs and hem with quick-dry inner mesh lining.',
-    moq: 20,
-    leadTime: '6–8 days',
-    weatherRating: 'Windproof',
-    availableColours: [
-      { name: 'Stadium Red & White', hex: '#991B1B', accentHex: '#F8FAFC' },
-      { name: 'Cobalt Blue & White', hex: '#1D4ED8', accentHex: '#F8FAFC' },
-      { name: 'Pitch Black & Gold', hex: '#18181B', accentHex: '#EAB308' },
-      { name: 'Emerald & White', hex: '#065F46', accentHex: '#F8FAFC' }
-    ],
-    brandingMethods: ['Embroidery', 'Screen Printing'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
-    priceGuide: 'From $34 / unit',
-    fabricSpecs: '240gsm brushed tricot polyester with anti-static and anti-odor treatment'
-  },
-  {
-    id: 'tactical-ops-jacket',
-    sku: 'JD-TO12',
-    name: 'Tactical Operations Jacket',
-    category: 'Technical',
-    industry: 'Security & Operational Teams',
-    tagline: 'Concealed utility pockets, reinforced elbow patches, and mic loop tabs.',
-    description: 'Specialist outerwear designed for private security details, cash transit escorts, and airport field security. Features heavy-duty YKK two-way zips and discreet side sidearm access.',
-    moq: 15,
-    leadTime: '10–14 days',
-    weatherRating: 'Waterproof (10k)',
-    availableColours: [
-      { name: 'Tactical Black', hex: '#121212', accentHex: '#262626' },
-      { name: 'Operational Navy', hex: '#0B132B', accentHex: '#1C2541' },
-      { name: 'Ranger Olive', hex: '#283618', accentHex: '#606C38' }
-    ],
-    brandingMethods: ['3D Silicone Badge', 'Embroidery', 'Reflective Transfer'],
-    recommendedPlacements: ['Left Chest', 'Right Chest', 'Left Sleeve', 'Right Sleeve'],
-    priceGuide: 'From $59 / unit',
-    fabricSpecs: 'Teflon-coated 330D Cordura-reinforced stretch ripstop with fleece backing'
-  },
-  {
-    id: 'hospitality-tailored-blazer',
-    sku: 'JD-HT13',
-    name: 'Hospitality Soft-Shell Tailored Blazer',
+    id: 'healthcare-softshell',
+    sku: 'JD-HS03',
+    name: 'Healthcare Executive Softshell',
+    collection: 'healthcare',
     category: 'Softshell',
-    industry: 'Tourism & Hospitality',
-    tagline: 'Structured corporate blazer styling with modern weather-resistant stretch fabric.',
-    description: 'Bridges the gap between formal corporate front-of-house blazers and practical outdoor hotel management outerwear. Resists rain splatters while looking crisp and professional.',
-    moq: 12,
-    leadTime: '10–14 days',
-    weatherRating: 'Water-Resistant',
-    availableColours: [
-      { name: 'Formal Charcoal', hex: '#27272A', accentHex: '#3F3F46' },
-      { name: 'Concierge Navy', hex: '#1E293B', accentHex: '#334155' },
-      { name: 'Luxe Camel', hex: '#78350F', accentHex: '#B45309' }
-    ],
-    brandingMethods: ['Embroidery', '3D Silicone Badge'],
-    recommendedPlacements: ['Left Chest', 'Collar'],
-    priceGuide: 'From $58 / unit',
-    fabricSpecs: '280gsm stretch woven polyester with micro-repellent finish and soft viscose lining'
-  },
-  {
-    id: 'sub-zero-freezer-parka',
-    sku: 'JD-SZ14',
-    name: 'Sub-Zero Cold Chain Duty Parka',
-    category: 'Parka',
-    industry: 'Logistics & Transport',
-    tagline: 'Extreme thermal barrier certified for cold storage (-30°C) and refrigerated freight.',
-    description: 'Engineered specifically for walk-in freezer logistics and pharmaceutical cold chains. Features freeze-resistant nylon teeth, internal hand warmer pockets, and insulated neck baffle.',
-    moq: 10,
-    leadTime: '12–16 days',
-    weatherRating: 'Extreme Cold (-20°C)',
-    availableColours: [
-      { name: 'Cold Vault Navy', hex: '#0F172A', accentHex: '#0284C7' },
-      { name: 'Freezer Black / Orange', hex: '#18181B', accentHex: '#EA580C' }
-    ],
-    brandingMethods: ['Reflective Transfer', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
-    priceGuide: 'From $74 / unit',
-    fabricSpecs: '420D Nylon Oxford shell with 400gsm hollow-fiber cold chain insulation'
-  },
-  {
-    id: 'campus-collegiate-jacket',
-    sku: 'JD-CC15',
-    name: 'Campus Collegiate Pullover Jacket',
-    category: 'Windbreaker',
-    industry: 'Schools & Education',
-    tagline: 'Retro half-zip anorak with kangaroo pouch and contrasting school block panels.',
-    description: 'Youth-favourite athletic outerwear for prefect bodies, sports tours, and university societies. Packable into front pouch with custom branded zipper pullers.',
-    moq: 20,
-    leadTime: '7–10 days',
-    weatherRating: 'Windproof',
-    availableColours: [
-      { name: 'Navy & Golden Amber', hex: '#172554', accentHex: '#F59E0B' },
-      { name: 'Black & Forest Green', hex: '#18181B', accentHex: '#15803D' },
-      { name: 'Royal & Bright White', hex: '#1D4ED8', accentHex: '#F8FAFC' }
-    ],
-    brandingMethods: ['Screen Printing', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
-    priceGuide: 'From $36 / unit',
-    fabricSpecs: '100% Crinkle Taslan Nylon with breathable mesh torso lining'
-  },
-  {
-    id: 'eco-recycled-softshell',
-    sku: 'JD-ER16',
-    name: 'Eco-Recycled Sustainability Shell',
-    category: 'Softshell',
-    industry: 'Corporate & Office Teams',
-    tagline: 'Certified 100% GRS recycled plastic bottles with GOTS organic trims.',
-    description: 'Designed for companies with strict ESG and sustainability mandates. Each jacket repurposes approximately 28 PET plastic bottles from waterways.',
-    moq: 20,
-    leadTime: '10–12 days',
-    weatherRating: 'Water-Resistant',
-    availableColours: [
-      { name: 'Eco Pine Green', hex: '#14532D', accentHex: '#22C55E' },
-      { name: 'Ocean Slate', hex: '#0E7490', accentHex: '#38BDF8' },
-      { name: 'Recycled Mineral Black', hex: '#1C1917', accentHex: '#44403C' }
-    ],
-    brandingMethods: ['Embroidery', '3D Silicone Badge'],
-    recommendedPlacements: ['Left Chest', 'Left Sleeve', 'Collar'],
-    priceGuide: 'From $45 / unit',
-    fabricSpecs: '100% Post-consumer GRS Recycled Polyester with bluesign certified DWR'
-  },
-  {
-    id: 'logistics-transition-anorak',
-    sku: 'JD-LA17',
-    name: 'Logistics Transition Anorak',
-    category: 'Windbreaker',
-    industry: 'Logistics & Transport',
-    tagline: 'Medium-weight transitional jacket for multi-drop drivers in changing seasons.',
-    description: 'Durable water-repellent shell with midweight poly-taffeta lining, reinforced seat panel for driving abrasion, and easy-access tablet front pouch.',
-    moq: 15,
-    leadTime: '7–10 days',
-    weatherRating: 'Water-Resistant',
-    availableColours: [
-      { name: 'Courier Charcoal', hex: '#262626', accentHex: '#525252' },
-      { name: 'Transit Blue', hex: '#1E3A8A', accentHex: '#3B82F6' }
-    ],
-    brandingMethods: ['Screen Printing', 'Reflective Transfer', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
-    priceGuide: 'From $38 / unit',
-    fabricSpecs: '210T Ripstop Nylon with acrylic water-seal coating and micro-mesh back vent'
-  },
-  {
-    id: 'healthcare-cleanshield',
-    sku: 'JD-HC18',
-    name: 'Healthcare CleanShield Warmup Zip',
-    category: 'Technical',
+    kind: 'Softshell',
     industry: 'Healthcare & Care Teams',
-    tagline: 'Antimicrobial and fluid-resistant warmup jacket for medical staff in cold clinics.',
-    description: 'Engineered for doctors, nurses, and hospice care workers who need outer warmth without compromising hygiene. Withstands high-temperature industrial laundering.',
+    tagline: 'Antimicrobial and fluid-resistant outerwear for clinical teams and healthcare administrators.',
+    description: 'Creates a comfortable, coordinated look for the people who care for others, tailored with medical department insignias and cleanable stretch fabric.',
     moq: 15,
     leadTime: '6–9 days',
-    weatherRating: 'Windproof',
+    weatherRating: 'Water-Resistant',
+    image: '/gallery/images/healthcare-softshell.0eb3f2e404.png',
+    aspect: 1,
     availableColours: [
-      { name: 'Medical Navy', hex: '#0F172A', accentHex: '#38BDF8' },
-      { name: 'Ceil Clinical Blue', hex: '#0284C7', accentHex: '#BAE6FD' },
-      { name: 'Hospital Pewter', hex: '#4B5563', accentHex: '#9CA3AF' }
+      { name: 'Navy', hex: '#26496f', accentHex: '#3d6796' },
+      { name: 'Hospital Pewter', hex: '#4d555e', accentHex: '#69727d' },
+      { name: 'Ceil Blue', hex: '#2b75a6', accentHex: '#4d99cc' }
     ],
     brandingMethods: ['Embroidery', 'Screen Printing'],
     recommendedPlacements: ['Left Chest', 'Right Chest', 'Left Sleeve'],
-    priceGuide: 'From $36 / unit',
-    fabricSpecs: '72% Poly / 21% Rayon / 7% Spandex Silvadur antimicrobial treated weave'
-  },
-  {
-    id: 'event-staff-waterproof-shell',
-    sku: 'JD-ES19',
-    name: 'Event Operations Weatherproof Shell',
-    category: 'Technical',
-    industry: 'Sports & Events',
-    tagline: 'High-visibility branded staff outerwear for festival and concert organizers.',
-    description: 'Built for festival crew, outdoor stadium marshals, and VIP coordination. Includes radio mic loops, large back print zone, and concealed hood.',
-    moq: 20,
-    leadTime: '5–8 days',
-    weatherRating: 'Waterproof (10k)',
-    availableColours: [
-      { name: 'Production Crew Black', hex: '#0A0A0A', accentHex: '#DC2626' },
-      { name: 'High-Visibility Neon Amber', hex: '#D97706', accentHex: '#18181B' }
-    ],
-    brandingMethods: ['Screen Printing', 'Reflective Transfer', 'Embroidery'],
-    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve', 'Right Sleeve'],
     priceGuide: 'From $44 / unit',
-    fabricSpecs: 'Ripstop 300D polyester with 10,000mm hydrostatic head rating'
+    fabricSpecs: 'Silvadur antimicrobial treated bonded micro-poly with silent-stretch weave'
   },
   {
-    id: 'executive-merino-hybrid',
-    sku: 'JD-EM20',
-    name: 'Executive Merino Hybrid Cardigan',
-    category: 'Fleece',
-    industry: 'Corporate & Office Teams',
-    tagline: 'Australian merino wool knitted arms with discreetly quilted windproof chest.',
-    description: 'The pinnacle luxury piece for corporate gifts, boardroom executive wear, and high-value client presentations. Subtle, quiet luxury with discrete tonal embroidery.',
-    moq: 10,
-    leadTime: '12–15 days',
-    weatherRating: 'Windproof',
+    id: 'logistics-red',
+    sku: 'JD-LR04',
+    name: 'Logistics Contrast Softshell',
+    collection: 'logistics',
+    category: 'Softshell',
+    kind: 'Softshell',
+    industry: 'Logistics & Transport',
+    tagline: 'High-visibility contrast styling for courier dispatch, delivery drivers, and freight supervisors.',
+    description: 'Designed for the people who keep your fleet moving. Features reinforced elbow panels, bonded zipper pockets, and bold contrast red shoulder panels.',
+    moq: 15,
+    leadTime: '7–10 days',
+    weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/logistics-red.5423c2ad91.png',
+    aspect: 0.75,
     availableColours: [
-      { name: 'Boardroom Midnight', hex: '#0F172A', accentHex: '#1E293B' },
-      { name: 'Heather Charcoal Luxe', hex: '#334155', accentHex: '#475569' },
-      { name: 'Rich Espresso', hex: '#3B2314', accentHex: '#52341F' }
+      { name: 'Black / Red', hex: '#1c1d1a', accentHex: '#e85a2a' },
+      { name: 'Navy / Orange', hex: '#1e2d42', accentHex: '#ea580c' }
+    ],
+    brandingMethods: ['Embroidery', 'Reflective Transfer', 'Screen Printing'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
+    priceGuide: 'From $43 / unit',
+    fabricSpecs: '320gsm windproof bonded softshell with Teflon water-shedding treatment'
+  },
+  {
+    id: 'logistics-black',
+    sku: 'JD-LB05',
+    name: 'Logistics Classic Softshell',
+    collection: 'logistics',
+    category: 'Softshell',
+    kind: 'Softshell',
+    industry: 'Logistics & Transport',
+    tagline: 'Understated all-black workwear shell for fleet managers and logistics coordinators.',
+    description: 'Streamlined design with ergonomic articulated sleeves, interior documents pouch, and heavy-duty YKK zips.',
+    moq: 15,
+    leadTime: '7–10 days',
+    weatherRating: 'Water-Resistant',
+    image: '/gallery/images/logistics-black.aea021da83.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Black', hex: '#181a17', accentHex: '#30332d' },
+      { name: 'Slate Gray', hex: '#424749', accentHex: '#5e6366' }
+    ],
+    brandingMethods: ['Embroidery', 'Screen Printing'],
+    recommendedPlacements: ['Left Chest', 'Back Center'],
+    priceGuide: 'From $40 / unit',
+    fabricSpecs: 'Bonded poly-spandex with storm-sealed chest pocket'
+  },
+  {
+    id: 'logistics-industrial',
+    sku: 'JD-LI06',
+    name: 'Logistics Industrial Softshell',
+    collection: 'logistics',
+    category: 'Softshell',
+    kind: 'Softshell',
+    industry: 'Logistics & Transport',
+    tagline: 'Heavy-duty abrasive-resistant fabric engineered for warehouse and cargo terminals.',
+    description: 'Built for strenuous loading bays and cross-docking hubs. Reinforced shoulder patches prevent premature wear from backpack and strap friction.',
+    moq: 15,
+    leadTime: '7–10 days',
+    weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/logistics-industrial.2dcf1671d8.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Black / Red', hex: '#1b1c19', accentHex: '#c93b20' },
+      { name: 'Black / High-Vis', hex: '#1b1c19', accentHex: '#eab308' }
+    ],
+    brandingMethods: ['Embroidery', 'Reflective Transfer'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
+    priceGuide: 'From $46 / unit',
+    fabricSpecs: '350gsm ballistic-woven poly with polar fleece bonding'
+  },
+  {
+    id: 'mining-reflective',
+    sku: 'JD-MR07',
+    name: 'Mining Reflective Softshell',
+    collection: 'mining',
+    category: 'Safety',
+    kind: 'Softshell',
+    industry: 'Construction, Mining & Engineering',
+    tagline: 'Certified 3M Scotchlite reflective striping over rugged graphite worksite fabric.',
+    description: 'Purpose-built for site engineers, mining supervisors, and field contractors requiring certified visibility and heavy-duty abrasion resistance.',
+    moq: 15,
+    leadTime: '8–12 days',
+    weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/mining-reflective.b3c6690ea6.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Black / High-Vis', hex: '#1f201d', accentHex: '#eab308' },
+      { name: 'Navy / High-Vis', hex: '#1a273b', accentHex: '#eab308' }
+    ],
+    brandingMethods: ['Reflective Transfer', 'Embroidery'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
+    priceGuide: 'From $52 / unit',
+    fabricSpecs: '300D Oxford reinforced panels with EN ISO 20471 certified reflective tape'
+  },
+  {
+    id: 'mining-orange',
+    sku: 'JD-MO08',
+    name: 'Mining Orange Safety Jacket',
+    collection: 'mining',
+    category: 'Safety jacket',
+    kind: 'Safety jacket',
+    industry: 'Construction, Mining & Engineering',
+    tagline: 'Fluorescent worksite safety jacket with maximum chromatic visibility.',
+    description: 'Designed for earthmoving sites, open-cast mines, and road infrastructure projects. Features heavy storm flaps and double radio loops.',
+    moq: 15,
+    leadTime: '8–12 days',
+    weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/mining-orange.575ce5697c.png',
+    aspect: 1,
+    availableColours: [
+      { name: 'Orange', hex: '#e85a2a', accentHex: '#1f201d' },
+      { name: 'Hi-Vis Amber', hex: '#ea580c', accentHex: '#0f172a' }
+    ],
+    brandingMethods: ['Reflective Transfer', 'Screen Printing'],
+    recommendedPlacements: ['Left Chest', 'Back Center'],
+    priceGuide: 'From $49 / unit',
+    fabricSpecs: 'High-visibility fluorescent PU-backed Oxford with seam sealed taping'
+  },
+  {
+    id: 'mining-yellow',
+    sku: 'JD-MY09',
+    name: 'Mining Yellow Safety Jacket',
+    collection: 'mining',
+    category: 'Safety jacket',
+    kind: 'Safety jacket',
+    industry: 'Construction, Mining & Engineering',
+    tagline: 'High-contrast yellow & black worksite shell with waterproof taped construction.',
+    description: 'Provides daytime fluorescent prominence and nighttime 360-degree beam bounce for heavy equipment environments.',
+    moq: 15,
+    leadTime: '8–12 days',
+    weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/mining-yellow.54644a82c2.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Yellow / Black', hex: '#ca8a04', accentHex: '#181917' },
+      { name: 'All Yellow Hi-Vis', hex: '#eab308', accentHex: '#ca8a04' }
+    ],
+    brandingMethods: ['Reflective Transfer', 'Screen Printing', 'Embroidery'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
+    priceGuide: 'From $49 / unit',
+    fabricSpecs: 'Fluorescent yellow ripstop with dark soil-resistant lower torso'
+  },
+  {
+    id: 'mining-bodywarmer',
+    sku: 'JD-MB10',
+    name: 'Mining High-Vis Bodywarmer',
+    collection: 'mining',
+    category: 'Bodywarmer',
+    kind: 'Bodywarmer',
+    industry: 'Construction, Mining & Engineering',
+    tagline: 'Sleeveless insulated safety vest offering arm agility for machinery operators.',
+    description: 'Warm quilted core that layers effortlessly over thermal shirts, high-vis polo shirts, or technical hoodies.',
+    moq: 20,
+    leadTime: '6–9 days',
+    weatherRating: 'Windproof',
+    image: '/gallery/images/mining-bodywarmer.4724c156a5.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Yellow', hex: '#d97706', accentHex: '#1c1d1b' },
+      { name: 'Safety Orange', hex: '#c2410c', accentHex: '#1c1d1b' }
+    ],
+    brandingMethods: ['Reflective Transfer', 'Embroidery'],
+    recommendedPlacements: ['Left Chest', 'Back Center'],
+    priceGuide: 'From $36 / unit',
+    fabricSpecs: 'Thermal quilted polyester with heavy-duty front zip and mic tabs'
+  },
+  {
+    id: 'mining-puffer',
+    sku: 'JD-MP11',
+    name: 'Mining Heavy-Duty Puffer',
+    collection: 'mining',
+    category: 'Puffer',
+    kind: 'Puffer',
+    industry: 'Construction, Mining & Engineering',
+    tagline: 'Extreme-cold winter site insulation paired with certified contrast safety panels.',
+    description: 'Engineered for freezing high-altitude pits and night shifts. Thick baffle insulation with tear-resistant outer ripstop shell.',
+    moq: 12,
+    leadTime: '10–14 days',
+    weatherRating: 'Extreme Cold (-20°C)',
+    image: '/gallery/images/mining-puffer.6ba7c5f111.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Orange / Navy', hex: '#c2410c', accentHex: '#172554' },
+      { name: 'Black / Orange', hex: '#1c1d1b', accentHex: '#ea580c' }
+    ],
+    brandingMethods: ['Embroidery', 'Reflective Transfer'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
+    priceGuide: 'From $64 / unit',
+    fabricSpecs: '450D Oxford ripstop with 350gsm thermal fill and storm draft seal'
+  },
+  {
+    id: 'safari-puffer',
+    sku: 'JD-SP12',
+    name: 'Safari Olive Puffer',
+    collection: 'safari',
+    category: 'Puffer',
+    kind: 'Puffer',
+    industry: 'Tourism & Hospitality',
+    tagline: 'Earthy tone thermal insulation crafted for game drives, bush camps, and morning safari departures.',
+    description: 'Quiet-rustle peached fabric in authentic bush veld olive. Protects guides and guests from biting sunrise breezes in open safari cruisers.',
+    moq: 15,
+    leadTime: '7–10 days',
+    weatherRating: 'Water-Resistant',
+    image: '/gallery/images/safari-puffer.9077a10df8.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Olive', hex: '#4a503e', accentHex: '#646b54' },
+      { name: 'Safari Khaki', hex: '#77704e', accentHex: '#918961' }
     ],
     brandingMethods: ['Embroidery', '3D Silicone Badge'],
     recommendedPlacements: ['Left Chest', 'Collar'],
+    priceGuide: 'From $47 / unit',
+    fabricSpecs: 'Silent peached micro-ripstop with 260gsm synthetic down loft'
+  },
+  {
+    id: 'safari-olive-parka',
+    sku: 'JD-SO13',
+    name: 'Safari Olive Hooded Parka',
+    collection: 'safari',
+    category: 'Parka',
+    kind: 'Parka',
+    industry: 'Tourism & Hospitality',
+    tagline: 'Full-length hooded protection with deep bellowed equipment pockets.',
+    description: 'Designed for lodge managers, wilderness trackers, and river boat guides. Weatherproof storm hood with brushed cotton inner trim.',
+    moq: 12,
+    leadTime: '9–12 days',
+    weatherRating: 'Waterproof (10k)',
+    image: '/gallery/images/safari-olive-parka.cfd40c09c4.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Olive', hex: '#3d4533', accentHex: '#525c45' },
+      { name: 'Dark Savanna', hex: '#4f4937', accentHex: '#6b634b' }
+    ],
+    brandingMethods: ['Embroidery', '3D Silicone Badge'],
+    recommendedPlacements: ['Left Chest', 'Right Chest', 'Left Sleeve'],
+    priceGuide: 'From $59 / unit',
+    fabricSpecs: 'Heavyweight weather-proof canvas blend with Sherpa fleece lining'
+  },
+  {
+    id: 'safari-camo',
+    sku: 'JD-SC14',
+    name: 'Safari Camouflage Parka',
+    collection: 'safari',
+    category: 'Parka',
+    kind: 'Parka',
+    industry: 'Tourism & Hospitality',
+    tagline: 'Tactical field camouflage pattern for conservation rangers and wildlife anti-poaching units.',
+    description: 'Discreet non-reflective fabric weave engineered for rugged savannah scrubland and riverine forests.',
+    moq: 15,
+    leadTime: '10–14 days',
+    weatherRating: 'All-Weather',
+    image: '/gallery/images/safari-camo.5f8a812bd0.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Bush Camouflage', hex: '#48523b', accentHex: '#6b664d' },
+      { name: 'Dark Savanna Camo', hex: '#373f2c', accentHex: '#525c42' }
+    ],
+    brandingMethods: ['Embroidery', '3D Silicone Badge'],
+    recommendedPlacements: ['Left Chest', 'Left Sleeve', 'Right Sleeve'],
     priceGuide: 'From $62 / unit',
-    fabricSpecs: '100% Extra-fine Merino wool knit sleeves (12 gauge) + micro-quilted down-touch chest'
+    fabricSpecs: 'Ripstop tactical blend with reinforced elbow shields and two-way zipper'
+  },
+  {
+    id: 'safari-brown',
+    sku: 'JD-SB15',
+    name: 'Safari Earth-Tone Parka',
+    collection: 'safari',
+    category: 'Parka',
+    kind: 'Parka',
+    industry: 'Tourism & Hospitality',
+    tagline: 'Classic African savannah earth brown tailored for lodge concierges and hospitality hosts.',
+    description: 'Combines rugged outdoor resilience with an elegant front-of-house hospitality presence.',
+    moq: 15,
+    leadTime: '7–10 days',
+    weatherRating: 'Water-Resistant',
+    image: '/gallery/images/safari-brown.d54f953d3d.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Earth Brown', hex: '#544636', accentHex: '#735f49' },
+      { name: 'Tobacco Tan', hex: '#6b583f', accentHex: '#8a7252' }
+    ],
+    brandingMethods: ['Embroidery', '3D Silicone Badge'],
+    recommendedPlacements: ['Left Chest', 'Collar'],
+    priceGuide: 'From $56 / unit',
+    fabricSpecs: 'Pre-washed cotton-poly twill with water-repellent backing'
+  },
+  {
+    id: 'sport-gradient',
+    sku: 'JD-SG16',
+    name: 'Sport White-to-Blue Windbreaker',
+    collection: 'sport',
+    category: 'Windbreaker',
+    kind: 'Windbreaker',
+    industry: 'Sports & Events',
+    tagline: 'Sublimated dynamic color transition with featherweight wind resistance for athletic crews.',
+    description: 'Put your club or tournament identity on show with vibrant sublimation, water resistance, and breathable back ventilation.',
+    moq: 20,
+    leadTime: '6–9 days',
+    weatherRating: 'Windproof',
+    image: '/gallery/images/sport-gradient.78a2110b32.png',
+    aspect: 1,
+    availableColours: [
+      { name: 'White / Blue', hex: '#51a7cf', accentHex: '#f6f5f0' },
+      { name: 'White / Red', hex: '#dc2626', accentHex: '#f6f5f0' }
+    ],
+    brandingMethods: ['Screen Printing', 'Embroidery'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Right Sleeve'],
+    priceGuide: 'From $32 / unit',
+    fabricSpecs: '85gsm micro-polyester with wind-lock coating and moisture-wicking lining'
+  },
+  {
+    id: 'sport-blue',
+    sku: 'JD-SBL17',
+    name: 'Sport Sky-Blue Windbreaker',
+    collection: 'sport',
+    category: 'Windbreaker',
+    kind: 'Windbreaker',
+    industry: 'Sports & Events',
+    tagline: 'Electric sky blue shell with black raglan sleeve accents for running clubs and fitness squads.',
+    description: 'Features zipped storm pockets, chin zip guard, and elasticated cuffs for active outdoor workouts.',
+    moq: 20,
+    leadTime: '6–8 days',
+    weatherRating: 'Water-Resistant',
+    image: '/gallery/images/sport-blue.07af5c18cd.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Sky Blue / Black', hex: '#38bdf8', accentHex: '#181a17' },
+      { name: 'Royal / Black', hex: '#1d4ed8', accentHex: '#181a17' }
+    ],
+    brandingMethods: ['Screen Printing', 'Embroidery'],
+    recommendedPlacements: ['Left Chest', 'Back Center'],
+    priceGuide: 'From $34 / unit',
+    fabricSpecs: 'Durable water-repellent ripstop with breathable underarm eyelets'
+  },
+  {
+    id: 'sport-bodywarmer',
+    sku: 'JD-SPB18',
+    name: 'Sport Performance Bodywarmer',
+    collection: 'sport',
+    category: 'Bodywarmer',
+    kind: 'Bodywarmer',
+    industry: 'Sports & Events',
+    tagline: 'Athletic core thermal vest designed for touchline coaching and training sessions.',
+    description: 'Sleeveless freedom of movement with zippered warmth. Features two outer pockets and inner smartphone security sleeve.',
+    moq: 20,
+    leadTime: '6–8 days',
+    weatherRating: 'Windproof',
+    image: '/gallery/images/sport-bodywarmer.265e5e5146.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Blue / Black', hex: '#1e3a8a', accentHex: '#181a17' },
+      { name: 'All Black', hex: '#181a17', accentHex: '#31332f' }
+    ],
+    brandingMethods: ['Embroidery', '3D Silicone Badge'],
+    recommendedPlacements: ['Left Chest', 'Collar'],
+    priceGuide: 'From $38 / unit',
+    fabricSpecs: 'Channel-quilted micro-poly with lightweight thermal fiber fill'
+  },
+  {
+    id: 'sport-fleece',
+    sku: 'JD-SF19',
+    name: 'Sport Technical Fleece',
+    collection: 'sport',
+    category: 'Fleece',
+    kind: 'Fleece',
+    industry: 'Sports & Events',
+    tagline: 'High-density anti-pill bonded fleece with striking sport contrast piping.',
+    description: 'Keeps substitutes, event marshals, and track officials warm on chilly training fields and stadium bleachers.',
+    moq: 20,
+    leadTime: '5–8 days',
+    weatherRating: 'Windproof',
+    image: '/gallery/images/sport-fleece.dd1c943f52.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Black / Orange', hex: '#181a17', accentHex: '#e85a2a' },
+      { name: 'Navy / Amber', hex: '#172554', accentHex: '#f59e0b' }
+    ],
+    brandingMethods: ['Embroidery', '3D Silicone Badge'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve'],
+    priceGuide: 'From $35 / unit',
+    fabricSpecs: '280gsm double-brushed anti-pill technical fleece'
+  },
+  {
+    id: 'sport-coach',
+    sku: 'JD-SC20',
+    name: 'Sport Extreme-Cold Coaches Parka',
+    collection: 'sport',
+    category: 'Parka',
+    kind: 'Parka',
+    industry: 'Sports & Events',
+    tagline: 'Bench-length insulated storm parka for head coaches and sideline support personnel.',
+    description: 'Generous mid-thigh length coverage keeps coaches and staff completely sheltered in torrential rain, wind, and freezing cold.',
+    moq: 12,
+    leadTime: '8–12 days',
+    weatherRating: 'Extreme Cold (-20°C)',
+    image: '/gallery/images/sport-coach.eeab99bbc4.png',
+    aspect: 0.75,
+    availableColours: [
+      { name: 'Black', hex: '#181a17', accentHex: '#2d302a' },
+      { name: 'Deep Stadium Navy', hex: '#131e33', accentHex: '#253557' }
+    ],
+    brandingMethods: ['Embroidery', 'Screen Printing'],
+    recommendedPlacements: ['Left Chest', 'Back Center', 'Left Sleeve', 'Right Sleeve'],
+    priceGuide: 'From $65 / unit',
+    fabricSpecs: 'Full-length 10,000mm waterproof Oxford shell with 320gsm thermal padding'
   }
 ];
 
@@ -448,93 +526,202 @@ export interface IndustryItem {
   id: string;
   name: string;
   shortName: string;
+  audience: string;
   description: string;
   iconName: string;
   recommendedStyles: string[];
   keyNeed: string;
   typicalOrderSize: string;
+  teams: string[];
+  focus: string[];
+  brandTag: string;
+  accentColor: string;
 }
 
 export const INDUSTRIES: IndustryItem[] = [
   {
-    id: 'corporate-office',
+    id: 'corporate',
     name: 'Corporate & Office Teams',
     shortName: 'Corporate',
-    description: 'Modern executive puffers, sleek fleece layers, and hybrid blazers designed to elevate your company brand from boardroom meetings to client commutes.',
+    audience: 'Employees, management teams, corporate events and company activities.',
+    description: 'Create a coordinated, professional appearance for your staff, from the office to client visits and company events.',
     iconName: 'Building2',
-    recommendedStyles: ['executive-puffer', 'corporate-microfleece', 'hybrid-bonded-knit', 'executive-merino-hybrid'],
+    recommendedStyles: ['corporate-puffer'],
     keyNeed: 'Polished executive fit, lightweight indoor/outdoor versatility',
-    typicalOrderSize: '25–150 units'
+    typicalOrderSize: '25–150 units',
+    teams: [
+      'Businesses and professional services',
+      'Office staff and management teams',
+      'Corporate events and associations'
+    ],
+    focus: [
+      'Company colours and a consistent team appearance',
+      'Chest, back or sleeve branding',
+      'Puffer, softshell and parka options'
+    ],
+    brandTag: 'JD CORPORATE PRO™',
+    accentColor: '#424b57'
   },
   {
-    id: 'logistics-transport',
+    id: 'logistics',
     name: 'Logistics & Transport',
     shortName: 'Logistics',
-    description: 'Weatherproof softshells and transition anoraks tailored for truck fleets, parcel delivery couriers, warehouse managers, and freight terminals.',
+    audience: 'Delivery companies, fleet operators, warehouse staff and distribution teams.',
+    description: 'Branded outerwear for the people who keep your business moving, with practical details for busy working days.',
     iconName: 'Truck',
-    recommendedStyles: ['technical-softshell', 'all-weather-storm-shield', 'logistics-transition-anorak', 'sub-zero-freezer-parka'],
+    recommendedStyles: ['logistics-red', 'logistics-black', 'logistics-industrial'],
     keyNeed: 'Abrasion resistance, weatherproofing, driving mobility',
-    typicalOrderSize: '50–500 units'
+    typicalOrderSize: '50–500 units',
+    teams: [
+      'Courier and delivery businesses',
+      'Fleet and transport operators',
+      'Warehouse and distribution teams'
+    ],
+    focus: [
+      'Recognisable company branding',
+      'Practical pockets and comfortable movement',
+      'Softshell, fleece and high-visibility options'
+    ],
+    brandTag: 'JD LOGISTICS PRO™',
+    accentColor: '#87372d'
   },
   {
-    id: 'security-operations',
+    id: 'tactical',
     name: 'Security & Operational Teams',
     shortName: 'Security',
-    description: 'Discreet tactical ops jackets and certified high-visibility safety coats engineered with durable fabrics, radio loops, and weather barriers.',
+    audience: 'Security companies, patrol teams, supervisors and professional operational crews.',
+    description: 'Build a clear, consistent team identity for security and operational staff, with functional outerwear suited to their duties.',
     iconName: 'ShieldCheck',
-    recommendedStyles: ['tactical-ops-jacket', 'high-vis-safety-shell', 'heavy-weather-parka'],
+    recommendedStyles: ['safari-camo'],
     keyNeed: 'Tough ripstop durability, tactical utility, high visibility',
-    typicalOrderSize: '30–200 units'
+    typicalOrderSize: '30–200 units',
+    teams: [
+      'Private security companies',
+      'Patrol and site security teams',
+      'Operational supervisors and field crews'
+    ],
+    focus: [
+      'Company logos, names and role identification',
+      'Practical features and fit for operational work',
+      'Materials and requirements agreed in your specification'
+    ],
+    brandTag: 'JD TACTICAL PRO™',
+    accentColor: '#4a503e'
   },
   {
-    id: 'schools-education',
+    id: 'campus',
     name: 'Schools & Education',
     shortName: 'Education',
-    description: 'Heritage varsity bomber jackets, track outerwear, and collegiate pullovers for prefect councils, sports tours, teacher faculties, and alumni cohorts.',
+    audience: 'Schools, colleges, universities, teachers, student groups and campus teams.',
+    description: 'Bring your school or institution’s identity to life with custom jackets in your colours, carrying your crest and team details.',
     iconName: 'GraduationCap',
-    recommendedStyles: ['heritage-varsity-bomber', 'campus-collegiate-jacket', 'packable-windbreaker'],
+    recommendedStyles: ['campus-softshell'],
     keyNeed: 'School colour matching, long-lasting embroidery, mixed student sizing',
-    typicalOrderSize: '50–400 units'
+    typicalOrderSize: '50–400 units',
+    teams: [
+      'Schools, colleges and universities',
+      'Teaching and campus staff',
+      'Student groups, clubs and school associations'
+    ],
+    focus: [
+      'School crests and institution colours',
+      'Mixed sizes across staff and student groups',
+      'Softshell, bomber and puffer options'
+    ],
+    brandTag: 'JD CAMPUS PRO™',
+    accentColor: '#233a57'
   },
   {
-    id: 'tourism-hospitality',
+    id: 'safari',
     name: 'Tourism & Hospitality',
     shortName: 'Hospitality',
-    description: 'Quilted field vests and tailored softshells crafted for safari lodges, luxury hotels, winery tour guides, resort front desks, and concierge teams.',
+    audience: 'Lodges, hotels, safari guides, hospitality businesses and outdoor crews.',
+    description: 'Give guests a recognisable team to turn to. Create branded outerwear for guides, lodge staff and hospitality teams working indoors and out.',
     iconName: 'Compass',
-    recommendedStyles: ['quilted-field-vest', 'hospitality-tailored-blazer', 'executive-puffer'],
+    recommendedStyles: ['safari-puffer', 'safari-olive-parka', 'safari-brown'],
     keyNeed: 'Impeccable first impressions, warmth without bulk, guest comfort',
-    typicalOrderSize: '20–100 units'
+    typicalOrderSize: '20–100 units',
+    teams: [
+      'Safari lodges and tour operators',
+      'Hotels and hospitality businesses',
+      'Guides, outdoor crews and guest-facing staff'
+    ],
+    focus: [
+      'A coordinated guest-facing team identity',
+      'Earth-tone palettes and your organisation’s logo',
+      'Puffer, parka and bodywarmer options'
+    ],
+    brandTag: 'JD SAFARI PRO™',
+    accentColor: '#77704e'
   },
   {
-    id: 'sports-events',
+    id: 'sport',
     name: 'Sports & Events',
     shortName: 'Sports',
-    description: 'Athletic track jackets, festival crew windbreakers, and race marshal coats with moisture-wicking linings and high-impact branding zones.',
+    audience: 'Sports clubs, coaches, training teams, event staff and associations.',
+    description: 'Put your club, event or association’s identity on show with team colours, sponsor branding and coordinated jackets for the whole group.',
     iconName: 'Trophy',
-    recommendedStyles: ['corporate-track-zip', 'packable-windbreaker', 'event-staff-waterproof-shell'],
-    keyNeed: 'Vibrant sponsor branding, sweat management, lightweight packing',
-    typicalOrderSize: '40–300 units'
+    recommendedStyles: ['sport-gradient', 'sport-blue', 'sport-bodywarmer', 'sport-fleece', 'sport-coach'],
+    keyNeed: 'Team colours, names, sponsor branding, lightweight packing',
+    typicalOrderSize: '40–300 units',
+    teams: [
+      'Sports clubs and coaching teams',
+      'Event organisers and staff',
+      'Associations and community organisations'
+    ],
+    focus: [
+      'Team colours, names and sponsor logos',
+      'Plain, trimmed and sublimated designs',
+      'Windbreaker and bodywarmer options'
+    ],
+    brandTag: 'JD SPORT PRO™',
+    accentColor: '#51a7cf'
   },
   {
-    id: 'construction-mining',
+    id: 'mining',
     name: 'Construction, Mining & Engineering',
     shortName: 'Construction',
-    description: 'Severe-weather expedition parkas with 10k waterproof membranes, heavy-duty Oxford reinforcement, and taped thermal insulation for worksites.',
+    audience: 'Construction companies, engineers, site workers, maintenance teams and industrial crews.',
+    description: 'Custom work-focused jackets for companies working on site and in the field, with branding and practical features planned around your environment.',
     iconName: 'HardHat',
-    recommendedStyles: ['heavy-weather-parka', 'high-vis-safety-shell', 'all-weather-storm-shield'],
-    keyNeed: 'Extreme cold resistance, heavy tear strength, site safety',
-    typicalOrderSize: '25–250 units'
+    recommendedStyles: ['mining-reflective', 'mining-orange', 'mining-yellow', 'mining-bodywarmer', 'mining-puffer'],
+    keyNeed: 'Company & role identification, high-visibility and extreme cold performance',
+    typicalOrderSize: '25–250 units',
+    teams: [
+      'Construction and engineering companies',
+      'Mining and industrial workforces',
+      'Site supervisors, maintenance teams and field workers'
+    ],
+    focus: [
+      'Company and role identification',
+      'High-visibility and reflective options',
+      'Fabric and performance needs reviewed for your work environment'
+    ],
+    brandTag: 'JD MINING PRO™',
+    accentColor: '#e79727'
   },
   {
-    id: 'healthcare-care',
+    id: 'healthcare',
     name: 'Healthcare & Care Teams',
     shortName: 'Healthcare',
-    description: 'CleanShield warmup zips and soft fleeces with antimicrobial fabric finishes, tailored for cold hospital wards, emergency EMS, and hospice workers.',
+    audience: 'Clinics, hospitals, care organisations, support staff and outreach teams.',
+    description: 'Create a professional, coordinated look for the teams who care for others, with your organisation’s colours, names and roles.',
     iconName: 'HeartHandshake',
-    recommendedStyles: ['healthcare-cleanshield', 'corporate-microfleece', 'eco-recycled-softshell'],
-    keyNeed: 'Fluid resistance, silent stretch fabric, industrial wash endurance',
-    typicalOrderSize: '20–150 units'
+    recommendedStyles: ['healthcare-softshell'],
+    keyNeed: 'Organisation logos, fluid resistance, comfortable staff outerwear',
+    typicalOrderSize: '20–150 units',
+    teams: [
+      'Hospitals, clinics and medical practices',
+      'Care organisations and support teams',
+      'Community health and outreach teams'
+    ],
+    focus: [
+      'Organisation logos, names and role branding',
+      'Comfortable, coordinated staff outerwear',
+      'Softshell, puffer and parka options'
+    ],
+    brandTag: 'JD HEALTHCARE PRO™',
+    accentColor: '#26496f'
   }
 ];
 
@@ -547,48 +734,48 @@ export interface FaqItem {
 export const FAQS: FaqItem[] = [
   {
     category: 'Branding',
-    question: 'How do you apply our company logo and branding to the jackets?',
-    answer: 'We provide four commercial branding techniques: (1) High-Density Multi-Thread Embroidery — ideal for corporate puffers, softshells, and fleeces with up to 15 thread colours; (2) Precision Screen Printing — high durability for waterproof rain shells and large back prints; (3) 3D Embossed Silicone/Rubber Badges — a sleek, modern finish used by premium outdoor retail brands; and (4) 3M Reflective Heat Transfer — vital for high-visibility and security teams working in low light.'
+    question: 'Can I customize the jacket with my company logo?',
+    answer: 'Yes. Share your company logo, brand colours and preferred placement. We work with you to confirm the branding and artwork before production. We provide four commercial techniques: high-density multi-thread embroidery, precision screen printing, 3D raised silicone badges, and reflective heat transfer.'
   },
   {
     category: 'Sizing',
-    question: 'What sizing options are available and can we mix sizes across our order?',
-    answer: 'Yes, absolutely. We support standard unisex and tailored women’s sizing from XS through 3XL (and 4XL/5XL on select industrial models). You can mix any distribution of sizes across your order (e.g. 8x Small, 20x Medium, 15x Large, 4x XL) with zero penalty. We provide detailed measurement specs including chest circumference, sleeve length, and jacket length.'
+    question: 'Can I order different sizes in one order?',
+    answer: 'Yes. Enter a quantity for each size in the order form, from XS to XXXL, or include custom fitting requirements. Your total is calculated automatically and included in your WhatsApp request. Mixed sizes carry zero penalty.'
   },
   {
     category: 'Order Quantities',
-    question: 'What is the Minimum Order Quantity (MOQ)?',
-    answer: 'Our standard Minimum Order Quantity is 15 units per style for standard corporate puffers and softshells, and 20 units for custom-dyed varsity jackets. For specialized heavy-duty industrial parkas, we accommodate orders starting at 10 units. We happily quote large corporate rollouts of 500+ units with tiered volume pricing.'
+    question: 'What is the minimum order quantity?',
+    answer: 'Minimum quantities depend on the jacket style and customization. Standard corporate puffers and softshells start at 15 units. Send your business requirements on WhatsApp and our team will confirm the applicable minimum and quotation.'
   },
   {
     category: 'Styles',
-    question: 'Can we inspect or choose between different jacket styles and cuts?',
-    answer: 'Yes! We feature 20 distinct outerwear styles spanning Executive Puffers, Technical 3-Layer Softshells, Heavy Weather Expedition Parkas, Diamond Quilted Vests, and Varsity Bombers. You can inspect front, back, and 360-degree views in our interactive showcase, and our team will recommend the optimal fabric weight for your region’s climate.'
+    question: 'What jacket styles are available?',
+    answer: 'Our eight JD Pro collections include puffer jackets, softshells, parkas, windbreakers, fleece, bodywarmers and other collection-specific styles. Explore the gallery or ask us to recommend a style for your team.'
   },
   {
     category: 'Colours',
-    question: 'Can you match our exact corporate Pantone / brand colours?',
-    answer: 'We stock core commercial colors (Midnight Black, Corporate Navy, Steel Charcoal, Forest Green, Burgundy, Hi-Vis Yellow/Orange) for immediate production turnaround. For orders exceeding 50 units, we offer custom Pantone (PMS) dyed shells, custom zipper pulls, and branded interior lining fabrics.'
+    question: 'Can I choose my own colours?',
+    answer: 'Yes. Tell us your preferred colours or brand colour codes. Our team will discuss suitable fabrics, trims and design options and confirm availability with you. We also offer custom Pantone (PMS) dyed shells for large orders.'
   },
   {
     category: 'Embroidery vs Printing',
-    question: 'Should we choose embroidery or printing for our team jackets?',
-    answer: 'For textured materials like puffer jackets, micro-fleece, and softshell, high-density embroidery is the industry standard because it provides a rich, tactile, and permanent professional finish that will never peel or crack. For lightweight waterproof shells or oversized back graphics (e.g. 25cm across the shoulders for event marshals), screen printing or reflective heat transfer is recommended.'
+    question: 'Can you embroider or print our logo?',
+    answer: 'Embroidery and printing are branding options. Select what you need in the order form, including front, back or sleeve placement. We will confirm the right method for your artwork and jacket: embroidery for puffers & fleeces, screen printing for large back motifs, and reflective transfers for safety.'
   },
   {
     category: 'Artwork',
-    question: 'What artwork format should we send on WhatsApp or email?',
-    answer: 'We prefer vector files: PDF, Adobe Illustrator (.AI), EPS, or SVG with text converted to outlines. If you only have high-resolution PNG or JPG images (at least 300 DPI), our in-house graphics department will vectorize and digitize your logo for embroidery proofing at no extra fee.'
+    question: 'Can I upload my own design?',
+    answer: 'Yes. Select your logo, artwork or reference image in the form. The filenames are added to your WhatsApp message. Files stay on your device, so attach the actual artwork (AI, EPS, PDF, or PNG) in the WhatsApp conversation.'
   },
   {
-    category: 'Timeline',
-    question: 'How fast is production and turnaround time?',
-    answer: 'Once you approve your digital visual mock-up and quote on WhatsApp, standard production takes 7 to 10 working days. Rush orders (3–5 working days) can be accommodated depending on stock availability and branding complexity.'
+    category: 'Timing',
+    question: 'How long does production take?',
+    answer: 'Timing depends on your jacket style, quantity, customization and approvals. Standard production takes 7 to 10 working days upon proof sign-off. Include your required delivery date and we will confirm a production schedule with your quotation.'
   },
   {
     category: 'Delivery',
-    question: 'Where do you deliver and how are the jackets packaged?',
-    answer: 'We ship nationwide and internationally via reliable tracked courier services right to your corporate headquarters, factory gate, or distributed branch locations. Each jacket is individually steamed, folded, and polybagged with size labels for easy distribution to your staff members.'
+    question: 'Do you deliver to my location?',
+    answer: 'Include your town or city and country in the order form. Based in Gaborone, Botswana, our team ships across Southern Africa and globally. We will confirm delivery arrangements, costs and timing for your location on WhatsApp.'
   }
 ];
 
@@ -629,28 +816,28 @@ export const WHY_CHOOSE_CARDS = [
   {
     title: 'Professional Appearance',
     kicker: 'First Impressions',
-    description: 'Give your team an authoritative, cohesive presence on client sites, corporate conferences, and daily operations with tailored, premium cuts.',
+    description: 'Give your team an authoritative, cohesive presence on client visits, company events, and daily operations with tailored, premium cuts.',
     metric: '94% of clients',
-    metricDetail: 'report heightened brand trust when field representatives wear branded outerwear'
+    metricDetail: 'report heightened brand trust when client-facing staff wear branded outerwear'
   },
   {
     title: 'Team Identity',
     kicker: 'Company Culture',
-    description: 'Foster belonging and organizational pride across departments, from warehouse dispatchers to executive suites, with unified gear people love wearing.',
+    description: 'Bring your organization’s identity to life. From executive management to logistics dispatch, unified gear people wear proudly.',
     metric: 'Over 25,000+ staff',
     metricDetail: 'outfitted across corporate teams, logistics fleets, and education cohorts'
   },
   {
     title: 'Brand Visibility',
     kicker: 'Walking Billboard',
-    description: 'Turn your everyday team mobility into high-impact marketing. High-density embroidery and weather-resistant logos stand out in any environment.',
+    description: 'Turn your everyday team mobility into high-impact marketing. Permanent Madeira embroidery and high-density logos stand out everywhere.',
     metric: '3.2M Impressions',
     metricDetail: 'estimated lifetime brand visibility generated per 100 branded corporate jackets'
   },
   {
     title: 'Staff & Company Branding',
     kicker: 'Engineered Durability',
-    description: 'Invest in garments that outlast typical promotional apparel. Industrial-grade stitching, weather-sealed zips, and colour-fast fabrics that endure washing.',
+    description: 'Invest in garments that outlast typical promotional apparel. Industrial-grade stitching, weather-sealed zips, and wash-fast colourways.',
     metric: '5-Year Longevity',
     metricDetail: 'grade fabrics tested for repeated commercial laundering and outdoor exposure'
   }
@@ -660,31 +847,31 @@ export const HOW_IT_WORKS_STEPS = [
   {
     step: '01',
     title: 'Choose Your Industry',
-    subtitle: 'Identify your operational requirements',
-    description: 'Select your sector — corporate, transport, security, hospitality, education, or site work — to view purpose-built outerwear tailored for your work conditions.'
+    subtitle: 'Explore 8 JD Pro collections',
+    description: 'Select your sector — Corporate, Logistics, Tactical, Campus, Safari, Sport, Mining, or Healthcare — to view purpose-built outerwear.'
   },
   {
     step: '02',
     title: 'Tell Us What You Need',
     subtitle: 'Configure styles, sizes & branding',
-    description: 'Specify your jacket style, mix sizes from XS to XXXL, choose your corporate colors, and select your branding method (embroidery, print, or silicone).'
+    description: 'Choose your jacket style, enter quantities across XS–XXXL or custom measurements, and specify embroidery, printing, or reflective trims.'
   },
   {
     step: '03',
     title: 'Send Your Order on WhatsApp',
-    subtitle: 'Instant direct connection to our team',
-    description: 'Click to launch your pre-formatted order summary directly into our dedicated WhatsApp order desk, complete with your exact quantities and specifications.'
+    subtitle: 'Instant direct connection to our desk',
+    description: 'Click to launch your pre-formatted order summary directly into our Gaborone WhatsApp production desk with your exact specifications.'
   },
   {
     step: '04',
     title: 'Get Your Quote',
-    subtitle: 'Free digital mockup proof within 2 hours',
-    description: 'Receive an official invoice quote along with a 3D digital mockup showing your exact logo placement, thread colors, and sizing breakdown.'
+    subtitle: 'Fast design proof & quotation',
+    description: 'Receive an official invoice quote along with visual digital mockups showing your exact logo placement, thread colors, and sizing breakdown.'
   },
   {
     step: '05',
     title: 'Approve & Produce',
-    subtitle: 'Fast production & tracked courier delivery',
-    description: 'Upon proof sign-off, our precision manufacturing kicks off. We inspect every seam, pack individually by size, and ship directly to your door.'
+    subtitle: 'Meticulous manufacturing & delivery',
+    description: 'Upon proof sign-off, our precision manufacturing kicks off. We inspect every seam, label individually by size, and deliver to your door.'
   }
 ];

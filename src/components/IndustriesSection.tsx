@@ -24,39 +24,42 @@ export const IndustriesSection: React.FC<IndustriesSectionProps> = ({
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'Building2':
-        return <Building2 className="w-5 h-5 text-amber-400" />;
+        return <Building2 className="w-5 h-5 text-[#e85a2a]" />;
       case 'Truck':
-        return <Truck className="w-5 h-5 text-amber-400" />;
+        return <Truck className="w-5 h-5 text-[#e85a2a]" />;
       case 'ShieldCheck':
-        return <ShieldCheck className="w-5 h-5 text-amber-400" />;
+        return <ShieldCheck className="w-5 h-5 text-[#e85a2a]" />;
       case 'GraduationCap':
-        return <GraduationCap className="w-5 h-5 text-amber-400" />;
+        return <GraduationCap className="w-5 h-5 text-[#e85a2a]" />;
       case 'Compass':
-        return <Compass className="w-5 h-5 text-amber-400" />;
+        return <Compass className="w-5 h-5 text-[#e85a2a]" />;
       case 'Trophy':
-        return <Trophy className="w-5 h-5 text-amber-400" />;
+        return <Trophy className="w-5 h-5 text-[#e85a2a]" />;
       case 'HardHat':
-        return <HardHat className="w-5 h-5 text-amber-400" />;
+        return <HardHat className="w-5 h-5 text-[#e85a2a]" />;
       case 'HeartHandshake':
-        return <HeartHandshake className="w-5 h-5 text-amber-400" />;
+        return <HeartHandshake className="w-5 h-5 text-[#e85a2a]" />;
       default:
-        return <Building2 className="w-5 h-5 text-amber-400" />;
+        return <Building2 className="w-5 h-5 text-[#e85a2a]" />;
     }
   };
 
   return (
-    <section id="industries" className="py-20 md:py-28 relative">
+    <section id="industries" className="py-20 md:py-28 bg-[#f6f5f0] border-t border-[#deded5] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="max-w-2xl mb-12">
-          <span className="text-xs font-semibold uppercase tracking-widest text-amber-500 block mb-2">
-            Sector Solutions
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Purpose-Built Outerwear by Industry
+        <div className="max-w-3xl mb-12">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="w-1.5 h-1.5 bg-[#e85a2a] inline-block" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[#e85a2a]">
+              SECTOR SOLUTIONS
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#20231f] tracking-tight">
+            Find Your Industry.
           </h2>
-          <p className="text-sm sm:text-base text-neutral-400 mt-3 leading-relaxed">
-            Every work environment presents distinct weather conditions, mobility demands, and branding conventions. Select your sector to explore tailored jackets built for your team.
+          <p className="text-sm sm:text-base text-[#555850] mt-3 leading-relaxed">
+            Eight JD Pro collections purpose-built for how your teams work, move, and represent your organisation. Choose your sector to explore curated outerwear.
           </p>
         </div>
 
@@ -65,45 +68,51 @@ export const IndustriesSection: React.FC<IndustriesSectionProps> = ({
           {INDUSTRIES.map((ind, idx) => (
             <div
               key={ind.id}
-              className="group rounded-2xl bg-neutral-900/80 border border-neutral-800 p-6 flex flex-col justify-between hover:border-neutral-700 hover:bg-neutral-900 transition-all duration-200 shadow-lg"
+              className="group rounded-xl bg-white border border-[#deded5] p-6 flex flex-col justify-between hover:border-[#e85a2a] hover:shadow-md transition-all duration-200"
             >
               <div>
-                {/* Header row with Icon and Editorial Index */}
+                {/* Header row with Icon and Brand Tag */}
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-2.5 rounded-xl bg-neutral-950 border border-neutral-800 group-hover:border-amber-500/30 transition-colors">
+                  <div className="p-2.5 bg-[#f6f5f0] border border-[#deded5] group-hover:border-[#e85a2a]/40 transition-colors">
                     {getIcon(ind.iconName)}
                   </div>
-                  <span className="text-xs font-mono text-neutral-500">
+                  <span className="text-[11px] font-mono font-bold text-[#85867f]">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-white group-hover:text-amber-400 transition-colors">
+                <div className="text-[10px] font-mono font-bold uppercase text-[#e85a2a] tracking-wider mb-1">
+                  {ind.brandTag}
+                </div>
+
+                <h3 className="text-lg font-bold text-[#20231f] group-hover:text-[#e85a2a] transition-colors">
                   {ind.name}
                 </h3>
 
-                <p className="text-xs text-neutral-400 mt-2.5 leading-relaxed line-clamp-3">
+                <p className="text-xs text-[#555850] mt-2.5 leading-relaxed line-clamp-3">
                   {ind.description}
                 </p>
 
-                {/* Key Need Note */}
-                <div className="mt-4 pt-3 border-t border-neutral-800/80">
-                  <span className="text-[11px] text-neutral-500 block">Focus Requirement:</span>
-                  <p className="text-xs text-neutral-300 font-medium mt-0.5">
-                    {ind.keyNeed}
+                {/* Audience Callout from live site */}
+                <div className="mt-4 pt-3 border-t border-[#deded5]">
+                  <span className="text-[10px] uppercase font-mono font-bold text-[#85867f] block">
+                    Ideal For:
+                  </span>
+                  <p className="text-xs text-[#20231f] font-medium mt-0.5 line-clamp-2">
+                    {ind.audience}
                   </p>
                 </div>
               </div>
 
-              {/* Action Link: Explore Jackets */}
+              {/* Action Link */}
               <div className="mt-6 pt-3">
                 <button
                   type="button"
                   onClick={() => onExploreJackets(ind.name)}
-                  className="w-full py-2 px-3 rounded-lg bg-neutral-950 hover:bg-amber-500 text-neutral-300 hover:text-neutral-950 border border-neutral-800 hover:border-amber-500 text-xs font-semibold transition-all flex items-center justify-between group/btn cursor-pointer"
+                  className="w-full py-2.5 px-3 bg-[#f6f5f0] hover:bg-[#e85a2a] text-[#20231f] hover:text-white border border-[#deded5] hover:border-[#e85a2a] text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer"
                 >
                   <span>Explore Jackets</span>
-                  <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>

@@ -1,38 +1,39 @@
 import React from 'react';
-import { WHO_WE_SERVE_TAGS } from '../data/jacketsData';
-import { CheckCircle2, Users2 } from 'lucide-react';
+import { WHO_WE_SERVE_TAGS, COMPANY_INFO } from '../data/jacketsData';
+import { CheckCircle2 } from 'lucide-react';
 
 export const WhoWeServeSection: React.FC = () => {
   return (
-    <section className="py-20 md:py-28 bg-neutral-950 border-t border-neutral-800/80">
+    <section className="py-20 md:py-28 bg-[#f6f5f0] border-t border-[#deded5]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Headline, Body Text, Tag List */}
           <div className="lg:col-span-6 space-y-6">
-            <span className="text-xs font-semibold uppercase tracking-widest text-amber-500 block">
-              Clients &amp; Organizations
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-[#e85a2a] inline-block" />
+              <span className="text-xs font-bold uppercase tracking-widest text-[#e85a2a]">
+                CLIENTS &amp; ORGANIZATIONS
+              </span>
+            </div>
 
-            {/* Mandatory Headline */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[#20231f] tracking-tight">
               Your company. Your people. Your identity.
             </h2>
 
-            {/* Body Text */}
-            <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">
-              We design and manufacture customized commercial outerwear for teams who represent excellence. Whether outfitting 20 corporate headquarters directors, 80 construction supervisors on remote sites, or 400 school prefects and athletes, we supply garments that instill immediate pride and belonging.
+            <p className="text-sm sm:text-base text-[#555850] leading-relaxed">
+              We design and manufacture customized commercial outerwear for teams who represent excellence. Whether outfitting 20 corporate headquarters directors in Gaborone, 80 construction supervisors on remote sites, or 400 school prefects and athletes, we supply garments that instill immediate pride and belonging.
             </p>
 
-            {/* Tag List (Clean editorial unboxed badges with subtle borders) */}
+            {/* Tag List */}
             <div>
-              <span className="text-xs font-mono text-neutral-400 block mb-3 uppercase tracking-wider">
+              <span className="text-xs font-mono font-bold text-[#85867f] block mb-3 uppercase tracking-wider">
                 Organizations We Equip Across Africa &amp; Globally:
               </span>
               <div className="flex flex-wrap gap-2">
                 {WHO_WE_SERVE_TAGS.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-300 hover:border-neutral-700 transition-colors"
+                    className="px-3 py-1.5 bg-white border border-[#deded5] text-xs font-semibold text-[#20231f] hover:border-[#e85a2a] transition-colors"
                   >
                     {tag}
                   </span>
@@ -40,13 +41,13 @@ export const WhoWeServeSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-2 flex items-center gap-6 text-xs text-neutral-400">
+            <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-xs text-[#555850] font-semibold">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#e85a2a] shrink-0" />
                 <span>Zero sample setup fees on approved orders</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#e85a2a] shrink-0" />
                 <span>Individually labeled by recipient size</span>
               </div>
             </div>
@@ -54,20 +55,19 @@ export const WhoWeServeSection: React.FC = () => {
 
           {/* Right Column: High-Impact Photography */}
           <div className="lg:col-span-6">
-            <div className="relative rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 shadow-2xl aspect-[16/10] group">
+            <div className="relative rounded-xl overflow-hidden border border-[#deded5] bg-white shadow-sm aspect-[16/10] group">
               <img
                 src="/src/assets/images/industry_showcase_team_1791836367778.jpg"
                 alt="Corporate operations and management team in branded custom outerwear"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 text-xs text-neutral-300">
-                <p className="font-semibold text-white">
-                  Nexus Global Operations Team — Outfitted in JD Custom Softshells
+              <div className="absolute inset-0 bg-gradient-to-t from-[#20231f]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 text-xs text-white">
+                <p className="font-bold text-white text-sm">
+                  {COMPANY_INFO.motto}
                 </p>
-                <p className="text-[11px] text-neutral-400 mt-0.5">
-                  London &amp; Nairobi regional offices · 120 Units delivered
+                <p className="text-[11px] text-neutral-300 mt-0.5">
+                  JD Jackets by JD &amp; Co BW · Gaborone, Botswana
                 </p>
               </div>
             </div>
