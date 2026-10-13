@@ -1,0 +1,1 @@
+export{t as ClothStudy}from"./TextPathStudies-B4YtYYum.js";

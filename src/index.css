@@ -18,3 +18,104 @@
   }
 }
 
+
+/* Custom PDF-to-JPEG Slides for Industry Jacket Cards */
+.jacket-slide-box {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  padding: 14px 16px 28px !important;
+  overflow: hidden !important;
+}
+.product-visual .jacket-slide-box img,
+.jacket-slide-box img {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 90% !important;
+  max-height: 82% !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(23, 25, 23, 0.14), 0 2px 6px rgba(23, 25, 23, 0.08) !important;
+  filter: none !important;
+  transform: none !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  pointer-events: none !important;
+  display: block !important;
+}
+.product-visual:hover .jacket-slide-box img {
+  transform: scale(1.02) !important;
+}
+.jacket-slide-btn {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #171917 !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
+}
+.jacket-slide-btn:hover {
+  background: #ffffff !important;
+  color: #e85a2a !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+.jacket-slide-btn.prev {
+  left: 10px !important;
+}
+.jacket-slide-btn.next {
+  right: 10px !important;
+}
+.jacket-slide-counter {
+  position: absolute !important;
+  bottom: 8px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  z-index: 10 !important;
+  background: rgba(23, 25, 23, 0.85) !important;
+  backdrop-filter: blur(6px) !important;
+  padding: 3px 9px !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.04em !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  pointer-events: auto !important;
+}
+.jacket-slide-counter .dots {
+  display: flex !important;
+  gap: 3px !important;
+  align-items: center !important;
+}
+.jacket-slide-counter .dot {
+  height: 4px !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: inline-block !important;
+}

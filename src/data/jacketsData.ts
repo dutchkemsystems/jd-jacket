@@ -875,3 +875,67 @@ export const HOW_IT_WORKS_STEPS = [
     description: 'Upon proof sign-off, our precision manufacturing kicks off. We inspect every seam, label individually by size, and deliver to your door.'
   }
 ];
+
+export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
+  corporate: [
+    '/gallery/slides/corporate-pro/page-01.jpg',
+    '/gallery/slides/corporate-pro/page-02.jpg',
+    '/gallery/slides/corporate-pro/page-03.jpg',
+    '/gallery/slides/corporate-pro/page-04.jpg',
+    '/gallery/slides/corporate-pro/page-05.jpg'
+  ],
+  logistics: [
+    '/gallery/slides/logistics-pro/page-01.jpg',
+    '/gallery/slides/logistics-pro/page-02.jpg',
+    '/gallery/slides/logistics-pro/page-03.jpg',
+    '/gallery/slides/logistics-pro/page-04.jpg',
+    '/gallery/slides/logistics-pro/page-05.jpg',
+    '/gallery/slides/logistics-pro/page-06.jpg'
+  ],
+  tactical: [
+    '/gallery/slides/tactical-pro/page-01.jpg',
+    '/gallery/slides/tactical-pro/page-02.jpg',
+    '/gallery/slides/tactical-pro/page-03.jpg',
+    '/gallery/slides/tactical-pro/page-04.jpg',
+    '/gallery/slides/tactical-pro/page-05.jpg',
+    '/gallery/slides/tactical-pro/page-06.jpg'
+  ],
+  campus: [
+    '/gallery/slides/campus-pro/page-01.jpg',
+    '/gallery/slides/campus-pro/page-02.jpg',
+    '/gallery/slides/campus-pro/page-03.jpg',
+    '/gallery/slides/campus-pro/page-04.jpg',
+    '/gallery/slides/campus-pro/page-05.jpg',
+    '/gallery/slides/campus-pro/page-06.jpg'
+  ],
+  safari: [
+    '/gallery/slides/safari-pro/page-01.jpg',
+    '/gallery/slides/safari-pro/page-02.jpg',
+    '/gallery/slides/safari-pro/page-03.jpg',
+    '/gallery/slides/safari-pro/page-04.jpg',
+    '/gallery/slides/safari-pro/page-05.jpg',
+    '/gallery/slides/safari-pro/page-06.jpg'
+  ],
+  sport: [
+    '/gallery/slides/sport-pro/page-01.jpg',
+    '/gallery/slides/sport-pro/page-02.jpg',
+    '/gallery/slides/sport-pro/page-03.jpg',
+    '/gallery/slides/sport-pro/page-04.jpg'
+  ],
+  mining: [
+    '/gallery/slides/mining-pro/page-01.jpg',
+    '/gallery/slides/mining-pro/page-02.jpg',
+    '/gallery/slides/mining-pro/page-03.jpg',
+    '/gallery/slides/mining-pro/page-04.jpg',
+    '/gallery/slides/mining-pro/page-05.jpg',
+    '/gallery/slides/mining-pro/page-06.jpg'
+  ],
+  healthcare: [
+    '/gallery/slides/healthcare-pro/page-01.jpg',
+    '/gallery/slides/healthcare-pro/page-02.jpg',
+    '/gallery/slides/healthcare-pro/page-03.jpg',
+    '/gallery/slides/healthcare-pro/page-04.jpg',
+    '/gallery/slides/healthcare-pro/page-05.jpg',
+    '/gallery/slides/healthcare-pro/page-06.jpg'
+  ]
+};
