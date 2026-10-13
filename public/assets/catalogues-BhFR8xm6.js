@@ -1,5 +1,5 @@
-import{t as e}from"./jsx-runtime-D3jfb0Ew.js";import{t}from"./file-text-SQwuk_d4.js";import{S as n,b as r}from"./index-D_s9ipWq.js";var i={name:`download`,size:24,node:[[`path`,{d:`M12 15V3`,key:`m9g1x1`}],[`path`,{d:`M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4`,key:`ih7n3h`}],[`path`,{d:`m7 10 5 5 5-5`,key:`brsn70`}]]};i.node;var a=n(i),o=e();
-var _reactWrap = (0,e.a)((0,e.n)(), 1);
+import{a as _wrap,n as _reactGetter,t as e}from"./jsx-runtime-D3jfb0Ew.js";import{t}from"./file-text-SQwuk_d4.js";import{S as n,b as r}from"./index-D_s9ipWq.js";var i={name:`download`,size:24,node:[[`path`,{d:`M12 15V3`,key:`m9g1x1`}],[`path`,{d:`M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4`,key:`ih7n3h`}],[`path`,{d:`m7 10 5 5 5-5`,key:`brsn70`}]]};i.node;var a=n(i),o=e();
+var _reactWrap = _wrap(_reactGetter(), 1);
 var _SLIDES_MAP = {
   "corporate": [
     "/gallery/slides/corporate-pro/page-01.jpg",
