@@ -878,6 +878,7 @@ export const HOW_IT_WORKS_STEPS = [
 
 export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
   corporate: [
+    '/gallery/industries/corporate-pro.jpg',
     '/gallery/slides/corporate-pro/page-01.jpg',
     '/gallery/slides/corporate-pro/page-02.jpg',
     '/gallery/slides/corporate-pro/page-03.jpg',
@@ -885,6 +886,7 @@ export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
     '/gallery/slides/corporate-pro/page-05.jpg'
   ],
   logistics: [
+    '/gallery/industries/logistics-pro.jpg',
     '/gallery/slides/logistics-pro/page-01.jpg',
     '/gallery/slides/logistics-pro/page-02.jpg',
     '/gallery/slides/logistics-pro/page-03.jpg',
@@ -893,6 +895,7 @@ export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
     '/gallery/slides/logistics-pro/page-06.jpg'
   ],
   tactical: [
+    '/gallery/industries/tactical-pro.jpg',
     '/gallery/slides/tactical-pro/page-01.jpg',
     '/gallery/slides/tactical-pro/page-02.jpg',
     '/gallery/slides/tactical-pro/page-03.jpg',
@@ -901,6 +904,7 @@ export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
     '/gallery/slides/tactical-pro/page-06.jpg'
   ],
   campus: [
+    '/gallery/industries/campus-pro.jpg',
     '/gallery/slides/campus-pro/page-01.jpg',
     '/gallery/slides/campus-pro/page-02.jpg',
     '/gallery/slides/campus-pro/page-03.jpg',
@@ -909,6 +913,7 @@ export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
     '/gallery/slides/campus-pro/page-06.jpg'
   ],
   safari: [
+    '/gallery/industries/safari-pro.jpg',
     '/gallery/slides/safari-pro/page-01.jpg',
     '/gallery/slides/safari-pro/page-02.jpg',
     '/gallery/slides/safari-pro/page-03.jpg',
@@ -917,12 +922,14 @@ export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
     '/gallery/slides/safari-pro/page-06.jpg'
   ],
   sport: [
+    '/gallery/industries/sport-pro.jpg',
     '/gallery/slides/sport-pro/page-01.jpg',
     '/gallery/slides/sport-pro/page-02.jpg',
     '/gallery/slides/sport-pro/page-03.jpg',
     '/gallery/slides/sport-pro/page-04.jpg'
   ],
   mining: [
+    '/gallery/industries/mining-pro.jpg',
     '/gallery/slides/mining-pro/page-01.jpg',
     '/gallery/slides/mining-pro/page-02.jpg',
     '/gallery/slides/mining-pro/page-03.jpg',
@@ -931,6 +938,7 @@ export const INDUSTRY_SLIDES_MAP: Record<string, string[]> = {
     '/gallery/slides/mining-pro/page-06.jpg'
   ],
   healthcare: [
+    '/gallery/industries/healthcare-pro.jpg',
     '/gallery/slides/healthcare-pro/page-01.jpg',
     '/gallery/slides/healthcare-pro/page-02.jpg',
     '/gallery/slides/healthcare-pro/page-03.jpg',

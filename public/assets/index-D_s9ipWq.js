@@ -13,8 +13,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   corporate: {
     name: "Corporate Pro",
     themeColor: "#1e3a5f",
-    bg: "radial-gradient(circle at 50% 35%, #f4f6fa 0%, #e2e8f0 100%)",
     slides: [
+      "/gallery/industries/corporate-pro.jpg",
       "/gallery/slides/corporate-pro/page-01.jpg",
       "/gallery/slides/corporate-pro/page-02.jpg",
       "/gallery/slides/corporate-pro/page-03.jpg",
@@ -25,8 +25,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   logistics: {
     name: "Logistics Pro",
     themeColor: "#b45309",
-    bg: "radial-gradient(circle at 50% 35%, #fffbeb 0%, #fef3c7 100%)",
     slides: [
+      "/gallery/industries/logistics-pro.jpg",
       "/gallery/slides/logistics-pro/page-01.jpg",
       "/gallery/slides/logistics-pro/page-02.jpg",
       "/gallery/slides/logistics-pro/page-03.jpg",
@@ -38,8 +38,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   tactical: {
     name: "Tactical Pro",
     themeColor: "#3f6212",
-    bg: "radial-gradient(circle at 50% 35%, #f7f9f1 0%, #ecf2df 100%)",
     slides: [
+      "/gallery/industries/tactical-pro.jpg",
       "/gallery/slides/tactical-pro/page-01.jpg",
       "/gallery/slides/tactical-pro/page-02.jpg",
       "/gallery/slides/tactical-pro/page-03.jpg",
@@ -51,8 +51,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   campus: {
     name: "Campus Pro",
     themeColor: "#6d28d9",
-    bg: "radial-gradient(circle at 50% 35%, #faf5ff 0%, #ede9fe 100%)",
     slides: [
+      "/gallery/industries/campus-pro.jpg",
       "/gallery/slides/campus-pro/page-01.jpg",
       "/gallery/slides/campus-pro/page-02.jpg",
       "/gallery/slides/campus-pro/page-03.jpg",
@@ -64,8 +64,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   safari: {
     name: "Safari Pro",
     themeColor: "#854d0e",
-    bg: "radial-gradient(circle at 50% 35%, #fefce8 0%, #fef08a 100%)",
     slides: [
+      "/gallery/industries/safari-pro.jpg",
       "/gallery/slides/safari-pro/page-01.jpg",
       "/gallery/slides/safari-pro/page-02.jpg",
       "/gallery/slides/safari-pro/page-03.jpg",
@@ -77,8 +77,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   sport: {
     name: "Sport Pro",
     themeColor: "#b91c1c",
-    bg: "radial-gradient(circle at 50% 35%, #fff1f2 0%, #ffe4e6 100%)",
     slides: [
+      "/gallery/industries/sport-pro.jpg",
       "/gallery/slides/sport-pro/page-01.jpg",
       "/gallery/slides/sport-pro/page-02.jpg",
       "/gallery/slides/sport-pro/page-03.jpg",
@@ -88,8 +88,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   mining: {
     name: "Mining Pro",
     themeColor: "#c2410c",
-    bg: "radial-gradient(circle at 50% 35%, #fff7ed 0%, #ffedd5 100%)",
     slides: [
+      "/gallery/industries/mining-pro.jpg",
       "/gallery/slides/mining-pro/page-01.jpg",
       "/gallery/slides/mining-pro/page-02.jpg",
       "/gallery/slides/mining-pro/page-03.jpg",
@@ -101,8 +101,8 @@ var INDUSTRY_SLIDES_CONFIG = {
   healthcare: {
     name: "Healthcare Pro",
     themeColor: "#0f766e",
-    bg: "radial-gradient(circle at 50% 35%, #f0fdfa 0%, #ccfbf1 100%)",
     slides: [
+      "/gallery/industries/healthcare-pro.jpg",
       "/gallery/slides/healthcare-pro/page-01.jpg",
       "/gallery/slides/healthcare-pro/page-02.jpg",
       "/gallery/slides/healthcare-pro/page-03.jpg",
@@ -123,7 +123,7 @@ function JacketSlidesCard({industryId: e, industryName: t}) {
     if (hovered) return;
     let timer = setInterval(() => {
       setCurr(prev => (prev + 1) % slides.length);
-    }, 4200);
+    }, 4500);
     return () => clearInterval(timer);
   }, [hovered, slides.length]);
 
@@ -150,14 +150,29 @@ function JacketSlidesCard({industryId: e, industryName: t}) {
     onMouseEnter: () => setHovered(true),
     onMouseLeave: () => setHovered(false),
     style: {
-      background: cfg.bg
+      position: "relative",
+      width: "100%",
+      height: "100%",
+      padding: 0,
+      margin: 0,
+      overflow: "hidden"
     },
     children: [
       (0,O.jsx)("img", {
         src: slides[curr],
-        alt: `${cfg.name} catalogue slide ${curr + 1}`,
+        alt: `${cfg.name} jacket ${curr === 0 ? "retouched product" : "slide " + curr}`,
         loading: "lazy",
-        decoding: "async"
+        decoding: "async",
+        style: {
+          width: "100%",
+          height: "100%",
+          objectFit: curr === 0 ? "cover" : "contain",
+          objectPosition: "center",
+          display: "block",
+          margin: 0,
+          padding: 0,
+          transition: "opacity 0.3s ease, transform 0.4s ease"
+        }
       }),
       (0,O.jsx)("button", {
         type: "button",
@@ -198,7 +213,6 @@ function JacketSlidesCard({industryId: e, industryName: t}) {
     ]
   });
 }
-
 function at({product:e,back:t=!1,eager:n=!1,className:r=``}){
   if (!e) return null;
   let aspect = e.aspect || 0.75;

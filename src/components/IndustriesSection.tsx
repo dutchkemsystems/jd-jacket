@@ -57,15 +57,17 @@ const IndustrySlideBox: React.FC<{
 
   return (
     <div
-      className="relative w-full h-56 bg-radial from-stone-50 to-stone-200 rounded-lg overflow-hidden flex items-center justify-center p-3 mb-4 group/slider"
+      className="relative w-full h-60 bg-stone-900 rounded-lg overflow-hidden flex items-center justify-center p-0 mb-4 group/slider shadow-sm"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <img
         src={slides[current]}
-        alt={`${industryName} catalogue slide ${current + 1}`}
+        alt={`${industryName} jacket ${current === 0 ? 'full-frame presentation' : 'catalogue slide ' + current}`}
         loading="lazy"
-        className="max-w-full max-h-full object-contain rounded shadow-md transition-all duration-300 pointer-events-none"
+        className={`w-full h-full ${
+          current === 0 ? 'object-cover object-center scale-100 hover:scale-105' : 'object-contain p-2'
+        } transition-transform duration-500 pointer-events-none`}
       />
 
       {/* Prev / Next controls */}

@@ -13,24 +13,7 @@
   padding: 14px 16px 28px !important;
   overflow: hidden !important;
 }
-.product-visual .jacket-slide-box img,
-.jacket-slide-box img {
-  position: static !important;
-  top: auto !important;
-  left: auto !important;
-  width: auto !important;
-  height: auto !important;
-  max-width: 90% !important;
-  max-height: 82% !important;
-  object-fit: contain !important;
-  border-radius: 6px !important;
-  box-shadow: 0 8px 24px rgba(23, 25, 23, 0.14), 0 2px 6px rgba(23, 25, 23, 0.08) !important;
-  filter: none !important;
-  transform: none !important;
-  transition: opacity 0.3s ease, transform 0.3s ease !important;
-  pointer-events: none !important;
-  display: block !important;
-}
+.product-visual .jacket-slide-box img, .jacket-slide-box img{position:static!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:cover!important;object-position:center!important;border-radius:0!important;box-shadow:none!important;margin:0!important;padding:0!important;display:block!important;transition:transform .4s ease!important}
 .product-visual:hover .jacket-slide-box img {
   transform: scale(1.02) !important;
 }
